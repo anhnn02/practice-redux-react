@@ -1,29 +1,23 @@
 import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-// import { signin } from '../../api/auth';
+import { useDispatch, useSelector} from 'react-redux'
+import { signin } from '../../features/user/userSlice'
 
 const SignIn = () => {
     const { register, handleSubmit, formState: { errors } } = useForm()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const {user} = useSelector(data => data.user.current)
 
-    // if (localStorage.getItem('user')) {
-    //     const { user } = JSON.parse(localStorage.getItem('user'))
-    //     if (user.role != 1) {
-    //         return navigate('/')
-    //     } else {
-    //         return navigate('/admin')
-    //     }
-    // }
+    const onSubmit = (data) => {
+        dispatch(signin(data))
 
-    const onSubmit = async data  => {
-        // const {data: user} = await signin(data)
-        // localStorage.setItem('user', JSON.stringify(user))
-        // if (user.user.role == 1) {
-        //     navigate('/admin')
-        // } else {
-        //     navigate('/')
-        // }
+        if (user.role == 1) {
+            navigate('/admin')
+        } else {
+            navigate('/')
+        }
     }
 
     return (

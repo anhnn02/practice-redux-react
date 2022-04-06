@@ -1,13 +1,21 @@
 import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import {useForm} from 'react-hook-form'
+import { signup } from '../../features/user/userSlice'
+import { useDispatch } from 'react-redux'
 
 const Register = () => {
-    const {register, handleSubmit, formState: {errors}} = useForm();
+    const { register, handleSubmit, formState } = useForm()
+    const dispatch = useDispatch()
     const navigate = useNavigate();
-    const onSubmit = async (dataUser) => {
-        // await signup(dataUser)
-        navigate('/signin')
+
+    const onSubmit = (data) => {
+        try {
+            dispatch(signup(data))
+            navigate('/signin')
+        } catch (error) {
+            
+        }
     }
 
     return (

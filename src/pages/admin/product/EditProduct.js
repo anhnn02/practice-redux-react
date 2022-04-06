@@ -5,12 +5,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { listCategory } from '../../../features/categoryPro/cateProSlice';
 import { getProduct, updateProduct } from '../../../features/product/productSlice';
 import slugify from 'react-slugify'
+import { read } from '../../../api/product';
 
 const EditProduct = () => {
     // const [categories, setCategories] = useState()
     const { register, handleSubmit, formState: { errors }, reset } = useForm()
     const categoryProduct = useSelector(data => data.category.value);
-    const dataProduct = useSelector(data => data.product.value);
+    
+    
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const { id } = useParams()
@@ -19,15 +21,18 @@ const EditProduct = () => {
     const onSubmit = (data) => {
         const slugProduct = slugify(data.name)
         const dataProduct = { ...data, slug: slugProduct };
-        console.log(dataProduct)
-        // dispatch(updateProduct(dataProduct));
+        dispatch(updateProduct(dataProduct));
         navigate('/admin/product')
     }
 
     useEffect(() => {
         dispatch(listCategory());
-        dispatch(getProduct(id));
-        reset(dataProduct);
+        const getOneProduct = async () =>{
+            const {data} = await read(id)
+            reset(data);
+        }
+        getOneProduct()
+        
     }, [id])
 
     return (

@@ -11,8 +11,8 @@ export const listProduct = createAsyncThunk(
 )
 export const getProduct = createAsyncThunk(
     "product/getProduct",
-    async () => {
-        const { data } = await read()
+    async (id) => {
+        const { data } = await read(id)
         return data
     }
 )

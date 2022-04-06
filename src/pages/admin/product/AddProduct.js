@@ -17,7 +17,6 @@ const AddProduct = () => {
   const onSubmit = async (data) => {
     const slugProduct = slugify(data.name)
     const dataProduct = { ...data, slug: slugProduct };
-    console.log(dataProduct)
 
     dispatch(addProduct(dataProduct));
     navigate('/admin/product')

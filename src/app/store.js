@@ -1,10 +1,26 @@
-import { configureStore } from '@reduxjs/toolkit';
-import productSlice from '../features/product/productSlice';
-import categoryReducer from '../features/categoryPro/cateProSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import {
+  persistStore,
+  persistReducer
+  // FLUSH,
+  // REHYDRATE,
+  // PAUSE,
+  // PERSIST,
+  // PURGE
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import rootReducer from "../features/index";
+
+const persistConfig = {
+  key: "mainStore",
+  storage,
+  whitelist: ["user", "cart"]
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: {
-    product: productSlice,
-    category: categoryReducer,
-  },
+  reducer: persistedReducer,
 });
+export const persistor = persistStore(store);
+
