@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +14,368 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+:root {
+  --primary-color: #FF6F16;
+  --secondary-color: #332C54;
+  --primary-15-color: rgba(248, 223, 209, 0.9);
+  --primary-50-color: rgba(255, 111, 22, 0.5);
+  --white: #fff;
+
+  --gray: #C4C4C4;
+  --gray-light: #F1F1F1;
+  --gray-lighter: #F0F0F4;
+  --gray-dark: #C1C1C1;
+  --gray-darker: #8B8B8B;
+
+  --bgr-color: #F8F8FA;
+  --sale-color: rgba(255, 0, 0, 0.15);
+  --new-item-color: rgba(34, 255, 0, 0.15);
+  --star-color: #FFE600;
+}
+
+* {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+html {
+  font-size: 15px;
+  color: var(--secondary-color);
+}
+
+a {
+  color: var(--secondary-color);
+}
+
+.grid-cols-custom {
+  grid-template-columns: 3fr 5fr 3fr
+}
+
+img {
+  @apply max-w-full
+}
+
+.radio+.radio {
+  margin-left: 5px;
+}
+
+.radio input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.radio input~label {
+  @apply leading-snug border-[1.5px] border-gray-light rounded-[5px] cursor-pointer max-h-[30px];
+}
+
+.radio input:checked~label {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.menu-item-link {
+  position: relative;
+}
+
+.menu-item-link:hover {
+  color: var(--primary-color);
+}
+
+.menu-item-link::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--primary-color);
+  transform-origin: bottom right;
+  transform: scaleX(0);
+  transition: transform 0.5s ease;
+}
+
+.menu-item-link:hover::before {
+  transform-origin: bottom left;
+  transform: scaleX(1);
+}
+
+.menu-item-link.active {
+  color: var(--primary-color);
+
+}
+
+.menu-item-link.active::before {
+  transform: scaleX(1);
+
+}
+
+/* Nav link admin */
+.nav-link-admin.active {
+  @apply bg-purple-100 text-purple-800
+}
+
+.cate-link.active {
+  @apply bg-primary-15-color;
+  @apply text-primary-color
+}
+
+/* 
+.menu-item-link{
+    @apply relative pb-5 
+}
+.menu-item-link::before{
+    @apply  absolute left-1/2 bottom-0 w-full h-[2px] bg-[orange] origin-center translate-x-[-50%] translate-y-0 scale-x-100 duration-300
+}
+.menu-item-link:hover::before{
+    @apply translate-x-1/2 translate-y-0 scale-x-100
+} */
+.value-home {
+  border-radius: 20px;
+  padding: 20px
+}
+
+.value-home:hover {
+  box-shadow: 0px 30px 20px -9px #E5E5E5;
+}
+
+.card-review {
+  box-shadow: 0px 20px 30px -10px #C4C4C4, 40px -40px 50px -20px rgba(255, 111, 22, 0.15);
+  border-radius: 20px;
+}
+
+.radius-primary {
+  @apply rounded-lg
+}
+
+.radius-secondary {
+  border-radius: 5px;
+}
+
+.trans-second {
+  transition: 0.3s;
+}
+
+.form__item+.form__item {
+  margin: 5px 0 0;
+}
+
+.auth__input:focus+.auth__label {
+  top: 0;
+  padding: 0 1px;
+  display: inline-block;
+  background: white;
+  color: var(--primary-color);
+}
+
+.social__item+.social__item {
+  margin-left: 5px;
+}
+
+.text-read {
+  @apply opacity-0;
+}
+
+.img-item-blog:hover {
+  opacity: 0.8;
+}
+
+.img-item-blog:hover .text-read {
+  @apply opacity-100
+}
+
+.item-cmt+.item-cmt {
+  @apply mt-3
+}
+
+.ff-2 {
+  font-family: 'Pacifico', sans-serif;
+  @apply text-xl
+}
+
+
+
+.product-tag {
+  @apply absolute top-1 left-0
+}
+
+.product-tag--sale {
+  @apply py-[3px] px-3 radius-secondary min-w-[30px] bg-sale-color;
+}
+
+.product-tag--new {
+  @apply py-[3px] px-3 radius-secondary min-w-[30px] bg-new-item-color;
+
+}
+
+.product__price--now {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.product__price--old {
+  font-size: 13px;
+  text-decoration: line-through;
+}
+
+.variation__item {
+  font-size: 11px;
+  border: 1px solid var(--gray-light);
+  color: var(--gray-darker);
+  padding: 2px 2px;
+  border-radius: 3px;
+}
+
+/*dt: detail */
+.variation__item-dt {
+  @apply leading-snug text-[15px] border border-gray-light py-[5px] px-[7px] rounded-[5px] bg-none cursor-pointer max-h-[30px];
+  outline: none;
+}
+
+.variation__item-dt:hover {
+  background: var(--primary-15-color);
+  border: 1px solid var(--primary-15-color);
+}
+
+.variation__item-dt.active {
+  border: 1px solid var(--primary-color);
+  background: var(--primary-color);
+  color: white;
+}
+
+.bi-star-fill {
+  color: var(--star-color);
+}
+
+.bi-star-fill.disabled {
+  color: var(--gray);
+}
+
+.btn-cart-quick {
+  border: none;
+  border-radius: 5px;
+  background: var(--primary-15-color);
+  padding: 5px 15px;
+  color: var(--primary-color);
+  transition: 0.6s;
+  width: auto;
+  min-width: 120px;
+  cursor: pointer;
+  outline: none
+}
+
+.products__item:hover .btn-cart-quick {
+  transform: translate(-50%, -60px);
+  transition: 0.3s;
+}
+
+.btn-favorite {
+  border: none;
+  border-radius: 5px;
+  background: var(--gray-light);
+  padding: 3px 12px;
+  cursor: pointer;
+  outline: none
+}
+
+.btn-favorite i::before {
+  line-height: 1 !important;
+}
+
+.btn-favorite .bi-heart {
+  color: var(--gray-dark);
+}
+
+.btn-favorite .bi-heart-fill {
+  color: var(--primary-color);
+  display: none;
+}
+
+.btn-favorite:hover {
+  background: var(--primary-15-color);
+}
+
+.btn-favorite:hover .bi-heart {
+  display: none;
+}
+
+.btn-favorite:hover .bi-heart-fill {
+  display: inline-block;
+}
+
+.btn-favorite-1 {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.category-item__item+.category-item__item {
+  margin-top: 5px;
+}
+
+.page-number {
+  border-radius: 3px;
+  background: white;
+  padding: 4px 10px;
+  cursor: pointer;
+
+}
+
+.page-number:hover {
+  background: var(--primary-15-color);
+}
+
+.page-number+.page-number {
+  margin-left: 10px;
+}
+
+.active-page {
+  background: var(--primary-15-color);
+
+}
+
+.tab .tablinks {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 5px 0;
+  transition: 0.3s;
+  position: relative;
+  outline: none
+}
+
+.tablinks::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--primary-color);
+  transform-origin: center;
+  transform: translate(-50%, 0) scaleX(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.tablinks:hover::before {
+  transform: translate(-50%, 0) scaleX(1);
+}
+
+.tablinks.active::before {
+  transform: translate(-50%, 0) scaleX(1);
+
+}
+
+.tablinks+.tablinks {
+  margin-left: 15px;
+}
+
+.error {
+  color: red;
+  display: inline-block;
+  margin-top: 2px;
 }
