@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import { read } from "../../api/categoryProduct";
+import { read, relatedProduct as relatedPro } from "../../api/categoryProduct";
 
 export const getProductInCategory = createAsyncThunk(
     "category/getProductInCategory",
@@ -8,6 +8,19 @@ export const getProductInCategory = createAsyncThunk(
         return data
     }
 )
+export const relatedProduct = createAsyncThunk(
+    "category/relatedProduct",
+    async (id, thunkAPI) => {
+        try {
+            const { data } = await relatedPro(id.idCate, id.idPro);
+            return data
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
+)
+
 
 const proInCateSlice = createSlice({
     name: "proInCate",
@@ -18,8 +31,13 @@ const proInCateSlice = createSlice({
         builder.addCase(getProductInCategory.fulfilled, (state, action) => {
             state.value = action.payload
         })
-        builder.addCase(getProductInCategory.rejected, (state, action) => {
-
+        
+        builder.addCase(relatedProduct.fulfilled, (state, action) => {
+            console.log("action", action)
+            state.value = action.payload
+        })
+        builder.addCase(relatedProduct.rejected, (state, action) => {
+            console.log("action", action)
         })
     }
 })

@@ -75,7 +75,6 @@ const productSlice = createSlice({
             state.value = state.value?.map(item => item._id === action.payload._id ? action.payload : item)
         })
         builder.addCase(getProductInCategory.fulfilled, (state, action) => {
-            console.log("action", action);
             state.proInCate = action.payload
         })
     }

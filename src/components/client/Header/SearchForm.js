@@ -1,30 +1,46 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getProductSearch } from '../../../features/product/productSearchSlice';
 // import { search } from '../../../api/product';
 import { formatPrice } from '../../../utils/formatNumber';
 
 const SearchForm = () => {
     const [openSearch, setOpenSearch] = useState(false)
-    const [resultSearch, setResultSearch] = useState()
+    let { value: resultSearch } = useSelector(data => data.productSearch);
+
+    const dispatch = useDispatch()
     const handleSearch = () => {
         if (!openSearch) {
             setOpenSearch(true)
         } else {
             setOpenSearch(false)
-            setResultSearch("")
+            // resultSearch = ""
         }
     }
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onKeyUp = async (data) => {
-        if (data.keyword.trim() === "") {
-            setResultSearch("");
-        } else {
-            // const { data: dataSearch } = await search(data.keyword);
-            // setResultSearch(dataSearch);
+        dispatch(getProductSearch(data.keyword))
+        if (!data.keyword) {
+            // toastr.error("Thông báo", "Nhập tên sản phẩm muốn tìm")
+            // alert("andajsdakjdkjdasjdakjsdkisadkas")
         }
+        // if (data.keyword.trim() === "") {
+        //     // if (resultSearch) {
+        //     //     console.log("scacas")
+        //     // } else{
+
+        //     // }
+        //     resultSearch = null;
+        //     console.log("asdjasd", typeof (resultSearch));
+
+        // } else {
+        //     // const { data: dataSearch } = await search(data.keyword);
+        //     // setResultSearch(dataSearch);
+        // }
     }
     return (
         <>
@@ -44,7 +60,24 @@ const SearchForm = () => {
                                 />
                             </form>
                             <div className="max-h-[400px] overflow-auto">
-                                {(!resultSearch) ? <div className="text-center text-orange-800">Input your item you want to search</div>
+                                {resultSearch ? resultSearch?.map((item, index) => {
+                                    return (
+                                        <div key={index} className="grid grid-cols-4 w-full border-b py-2">
+                                            <div className="col-span-3">
+                                                <Link to={`product/${item._id}`} className="block font-bold truncate w-[220px] text-lg text-orange-800">{item.name}</Link>
+                                                <span>Size: 38</span>
+                                                <p>
+                                                    <span className="product__price--now">{(item.salePrice) ? formatPrice(item.salePrice) : formatPrice(item.regularPrice)} </span>
+                                                    <span className="product__price--old">{(item.salePrice) ? formatPrice(item.regularPrice) : ""}</span>
+                                                </p>p
+                                            </div>
+                                            <Link to="">
+                                                <img src={item.img} className="w-full h-18 object-cover" alt="" />
+                                            </Link>
+                                        </div>
+                                    )
+                                }) : <div className="text-center text-orange-800">Input your item you want to search</div>}
+                                {/* {(!resultSearch) ? <div className="text-center text-orange-800">Input your item you want to search</div>
                                     : resultSearch?.map((item) => {
                                         return <div className="grid grid-cols-4 w-full border-b py-2">
                                             <div className="col-span-3">
@@ -59,7 +92,7 @@ const SearchForm = () => {
                                                 <img src={item.img} className="w-full h-18 object-cover" alt="" />
                                             </Link>
                                         </div>
-                                    })}
+                                    })} */}
 
                                 {/* <div className="">
                                     <p className="py-1 text-center">View all

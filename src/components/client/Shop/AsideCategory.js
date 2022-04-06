@@ -26,8 +26,8 @@ const AsideCategory = () => {
             <div className="shop__category-group">
                 <span className="ff-2">Category</span>
                 <ul className="category-item__list p-0">
-                    {categories.map((item) => {
-                        return <li className="category-item__item list-none my-1 mx-0"> <NavLink to={`/categories/${item._id}`}
+                    {categories?.map((item, index) => {
+                        return <li key={index} className="category-item__item list-none my-1 mx-0"> <NavLink to={`/categories/${item._id}`}
                             className="cate-link inline-block w-full py-[6px] px-[5px] rounded-[5px] trans-second hover:bg-primary-15-color hover:text-primary-color">
                             {item.name} </NavLink> </li>
                     })}

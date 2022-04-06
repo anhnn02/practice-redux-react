@@ -24,3 +24,7 @@ export const get = (id) => {
     const url = `categoryPro/${id}`;
     return instance.get(url);
 }
+export const relatedProduct = (idCate, idPro) => {
+    const url = `categoryPros/${idCate}/${idPro}`;
+    return instance.get(url);
+}

@@ -8,7 +8,6 @@ import { formatPrice, formatPercent } from '../../../utils/formatNumber';
 // import { getProductInCategory } from '../../../features/categoryPro/proInCateSlice';
 
 const ListProduct = ({ products }) => {
-    console.log("first", products);
     // const proInCate = useSelector((data => data.product.value))
     // const categories = useSelector((data => data.category.value))
     // const dispatch = useDispatch();
@@ -37,8 +36,8 @@ const ListProduct = ({ products }) => {
 
     return (
         <div className="grid grid-cols-4 gap-5">
-            {products?.map((item) => {
-                return <div className="products__item bg-white radius-primary pt-[5px] px-[5px] pb-[10px]">
+            {products?.map((item, index) => {
+                return <div key={index} className="products__item bg-white radius-primary pt-[5px] px-[5px] pb-[10px]">
                     <div className="relative overflow-hidden h-44">
                         {(item.salePrice) ? <span className="product-tag product-tag--sale">{formatPercent(item.salePrice, item.regularPrice)}</span> : ""}
                         <Link to={`/product/${item._id}`}>

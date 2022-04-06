@@ -1,54 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { read } from '../../../api/product'
-import { getProductInCategory } from '../../../features/categoryPro/proInCateSlice'
+import { relatedProduct as relatedPro, getProductInCategory } from '../../../features/categoryPro/proInCateSlice'
 import { formatPercent, formatPrice } from '../../../utils/formatNumber'
 
 const ProductDetailPage = () => {
-    // const [nameCate, setNameCate] = useState()
-    // const [relatedProduct, setRelatedProduct] = useState()
+    const dispatch = useDispatch();
     const [productOne, setProduct] = useState([])
     const relatedProduct = useSelector(data => data.proInCate.value);
-    console.log("asasd", relatedProduct)
-    const idCate = productOne.categoryPro;
-    const dispatch = useDispatch()
+    console.log("sdasdasdasda", relatedProduct.relatedProduct)
 
-    const navigate = useNavigate();
     const { productName } = useParams();
-
-    // useEffect(() => {
-    //     const getProduct = async () => {
-    //         const { data } = await list()
-    //         const dataProduct = data.filter((item) => {
-    //             console.log(item.slug, productName);
-    //             return item.slug == productName
-    //         })
-    //         setProduct(dataProduct[0]._id);
-
-    //         const getCategoryPro = async () => {
-    //             const { data: dataCate } = await read(dataProduct.categoryPro);
-    //             const newDataProduct = dataCate.products.filter((item) => {
-    //                 return item._id != productName
-    //             })
-    //             setRelatedProduct(newDataProduct)
-    //             setNameCate(dataCate.category.name.toUpperCase())
-    //         }
-    //         getCategoryPro();
-    //     }
-    //     getProduct();
-    // }, [productName])
-
+    
     useEffect(() => {
-        const getOneProduct = async () => {
-            const { data } = await read(productName)
+        (async () => {
+            const { data } = await read(productName);
             setProduct(data)
-        }
-        getOneProduct()
-        dispatch(getProductInCategory(idCate));
-        // const abc = relatedProduct.filter((item) => {
-        //     return item._id !== idCate
-        // })
+            const id = {idCate: data?.categoryPro, idPro: productName}
+            // dispatch(getProductInCategory(data?.categoryPro))
+            dispatch(relatedPro(id))
+            console.log("relatedProduct", relatedProduct)
+        })();
     }, [productName])
 
     return (
@@ -108,7 +81,7 @@ const ProductDetailPage = () => {
                                             <div className="w-full">
                                                 <div className="grid grid-cols-6 xl:grid-cols-6 gap-2 w-full">
                                                     <div className="radio">
-                                                        <input name="sizeProduct" type="radio" id="sizeProduct-${i}" value="${size}" />
+                                                        <input name="sizeProduct" type="radio" id="sizeProduct-${i}" defaultValue="${size}" />
                                                         <label htmlFor="sizeProduct-${i}"
                                                             className="px-[10px] py-[14px] rounded flex justify-center items-center text-sm lg:text-lg w-5 h-5 lg:w-10 lg:h-14">
                                                             {/* ${size} */}
@@ -116,7 +89,7 @@ const ProductDetailPage = () => {
                                                         </label>
                                                     </div>
                                                     <div className="radio">
-                                                        <input name="sizeProduct" type="radio" id="sizeProduct-${is}" value="${size}" />
+                                                        <input name="sizeProduct" type="radio" id="sizeProduct-${is}" defaultValue="${size}" />
                                                         <label htmlFor="sizeProduct-${is}"
                                                             className="px-[14px] py-[14px] rounded flex justify-center items-center text-sm lg:text-lg w-5 h-5 lg:w-10 lg:h-14">
                                                             {/* ${size} */}
@@ -136,7 +109,7 @@ const ProductDetailPage = () => {
                                     <input
                                         className="quantity__input shadow appearance-none border rounded max-w-2  py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                         type="number"
-                                        value="1" />
+                                        defaultValue="1" />
                                 </div>
                                 <button
                                     id="btnAddToCart"
@@ -173,52 +146,52 @@ const ProductDetailPage = () => {
                         {/* <h4>Comment</h4> */}
                     </div>
                     <div className="py-5 px-12">
-                        <h4 className="text-2xl py-3">Related products <b></b> </h4>
+                        <h4 className="text-2xl py-3">Related products <b>{relatedProduct.category.name.toUpperCase()}</b></h4>
                         <div className="renderNoProduct text-center"></div>
                         <div className="grid grid-cols-5 gap-5 max-w-7xl m-auto">
-                            {(!relatedProduct.products) ? <p className="text-orange-800">Have no related product!</p>
-                                : relatedProduct.products?.map((item) => {
-                                return <div className="products__item bg-white radius-primary pt-[5px] px-[5px] pb-[10px]">
-                                    <div className="relative overflow-hidden h-44">
-                                        <Link to={`/product/${item._id}`}>
-                                            <img src="https://images.unsplash.com/photo-1534353436294-0dbd4bdac845?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                                                alt="" className="item-img max-w-full h-44 w-full rounded-[7px] object-cover" />
-                                        </Link>
-                                        <button className="btn-favorite btn-favorite-1"><i className="bi bi-heart"></i><i
-                                            className="bi bi-heart-fill"></i></button>
-                                        <button className="btn-cart-quick absolute text-sm -bottom-[50px] -translate-x-1/2 translate-y-8 left-1/2">Add
-                                            to cart <i className="bi bi-bag"></i></button>
-                                    </div>
-                                    <div className="my-0 mx-2">
-                                        <h3 className="my-[3px] mx-0 h-auto"><a className="font-normal text-[15px] block w-[190px] truncate" href="">
-                                            {item.name}</a></h3>
-                                        <div className="flex justify-between items-center">
-                                            <div className="">
-                                                <span className="product__price product__price--now">{(item.salePrice) ? formatPrice(item.salePrice) : formatPrice(item.regularPrice)}</span>
-                                                <span className="product__price product__price--old">{(item.salePrice) ? formatPrice(item.regularPrice) : ""}</span>
-                                            </div>
-                                            <div className="product-group__variation">
+                            {(!relatedProduct.relatedProduct || relatedProduct.relatedProduct.length == 0) ? <p className="text-orange-800">Have no related product!</p>
+                                : relatedProduct.relatedProduct?.map((item, index) => {
+                                    return <div key={index} className="products__item bg-white radius-primary pt-[5px] px-[5px] pb-[10px]">
+                                        <div className="relative overflow-hidden h-44">
+                                            <Link to={`/product/${item._id}`}>
+                                                <img src="https://images.unsplash.com/photo-1534353436294-0dbd4bdac845?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
+                                                    alt="" className="item-img max-w-full h-44 w-full rounded-[7px] object-cover" />
+                                            </Link>
+                                            <button className="btn-favorite btn-favorite-1"><i className="bi bi-heart"></i><i
+                                                className="bi bi-heart-fill"></i></button>
+                                            <button className="btn-cart-quick absolute text-sm -bottom-[50px] -translate-x-1/2 translate-y-8 left-1/2">Add
+                                                to cart <i className="bi bi-bag"></i></button>
+                                        </div>
+                                        <div className="my-0 mx-2">
+                                            <h3 className="my-[3px] mx-0 h-auto"><a className="font-normal text-[15px] block w-[190px] truncate" href="">
+                                                {item.name}</a></h3>
+                                            <div className="flex justify-between items-center">
+                                                <div className="">
+                                                    <span className="product__price product__price--now">{(item.salePrice) ? formatPrice(item.salePrice) : formatPrice(item.regularPrice)}</span>
+                                                    <span className="product__price product__price--old">{(item.salePrice) ? formatPrice(item.regularPrice) : ""}</span>
+                                                </div>
+                                                <div className="product-group__variation">
 
-                                                <span className="variation__item">36</span>
-                                                <span className="variation__item">37</span>
-                                                <span className="variation__item">38</span>
+                                                    <span className="variation__item">36</span>
+                                                    <span className="variation__item">37</span>
+                                                    <span className="variation__item">38</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex justify-between items-center mt-1">
-                                            <div className="text-sm">
-                                                <i className="bi bi-star-fill text-star-color"></i>
-                                                <i className="bi bi-star-fill text-star-color"></i>
-                                                <i className="bi bi-star-fill text-star-color"></i>
-                                                <i className="bi bi-star-fill text-star-color"></i>
-                                                <i className="bi bi-star-fill text-gray-primary disabled"></i>
-                                                <span className="product__feedback-quantity">(10)</span>
-                                            </div>
-                                            <div className="text-sm"> <span className="text-[15px]">10</span> sales
+                                            <div className="flex justify-between items-center mt-1">
+                                                <div className="text-sm">
+                                                    <i className="bi bi-star-fill text-star-color"></i>
+                                                    <i className="bi bi-star-fill text-star-color"></i>
+                                                    <i className="bi bi-star-fill text-star-color"></i>
+                                                    <i className="bi bi-star-fill text-star-color"></i>
+                                                    <i className="bi bi-star-fill text-gray-primary disabled"></i>
+                                                    <span className="product__feedback-quantity">(10)</span>
+                                                </div>
+                                                <div className="text-sm"> <span className="text-[15px]">10</span> sales
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            })}
+                                })}
                         </div>
                     </div>
                 </div>
