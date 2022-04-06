@@ -1,36 +1,28 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
-import {list, read } from '../../../api/categoryProduct';
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import AsideCategory from '../../../components/client/Shop/AsideCategory'
 import ListProduct from '../../../components/client/Shop/ListProduct'
+import { getProductInCategory } from '../../../features/categoryPro/proInCateSlice'
 
-
-const ProductCate = ({ categories }) => {
-    const [proInCate, setProInCate] = useState();
-    const { cateName } = useParams();
+const ProductCate = () => {
+    const {products} = useSelector(data => data.proInCate.value);
+    const { cateName: idCate } = useParams()
+    const dispatch = useDispatch()
+    console.log(idCate)
 
     useEffect(() => {
-        const getCateFromSlug = async () => {
-            const { data } = await list();
-            const cate = data.filter((item) => {
-                return item.slug == cateName
-            })
-            const getProInCate = async () => {
-                const { data } = await read(cate[0]._id);
-                setProInCate(data.products);
-            }
-            getProInCate();
-        }
-        getCateFromSlug();
-    }, [cateName])
-   
+        dispatch(getProductInCategory(idCate))
+        console.log("abc", products);
+    }, [idCate])
+
     return (
         <>
             <div>
                 <div className="bg-bgr-color w-full">
                     <div className="max-w-screen-xl m-auto px-6">
                         <main className="pl-12 py-2 pr-12 grid grid-cols-5 gap-5">
-                            <AsideCategory  />  
+                            <AsideCategory />
                             <div className="shop__products col-span-4 ">
                                 <div>
                                     <span className="text-sm">Result looking for “Nike”</span>
@@ -55,7 +47,7 @@ const ProductCate = ({ categories }) => {
                                             </div>
                                         </div>
                                     </div>
-                                    <ListProduct />
+                                    <ListProduct products={products}/>
                                     <div className=" text-center my-4 renderPage">
                                         <span className="show-page page-number">1</span>
                                     </div>

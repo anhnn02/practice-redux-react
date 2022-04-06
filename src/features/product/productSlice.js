@@ -39,10 +39,20 @@ export const updateProduct = createAsyncThunk(
         return data
     }
 )
+
+export const getProductInCategory = createAsyncThunk(
+    "category/getProductInCategory",
+    async (idCate, thunkAPI) => {
+        const { data } = await read(idCate);
+        return data
+    }
+)
+
 const productSlice = createSlice({
     name: "product",
     initialState: {
-        value: []
+        value: [],
+        proInCate: [],
     },
     extraReducers: (builder) => { 
         builder.addCase(listProduct.fulfilled, (state, action) => {
@@ -63,6 +73,10 @@ const productSlice = createSlice({
         })
         builder.addCase(updateProduct.fulfilled, (state, action) => {
             state.value = state.value?.map(item => item._id === action.payload._id ? action.payload : item)
+        })
+        builder.addCase(getProductInCategory.fulfilled, (state, action) => {
+            console.log("action", action);
+            state.proInCate = action.payload
         })
     }
     

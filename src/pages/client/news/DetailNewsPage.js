@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from '../../../components/client/Header'
 import Footer from '../../../components/client/Footer'
-import CommentNews from '../../../components/client/news/CommentNews'
+import CommentNews from '../../../components/client/News/CommentNews'
 
 function DetailNewsPage() {
     return (

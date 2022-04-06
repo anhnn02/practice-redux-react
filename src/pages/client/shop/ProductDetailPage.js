@@ -1,37 +1,54 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { read } from '../../../api/categoryProduct'
-import { list, read as readProduct } from '../../../api/product'
+import { read } from '../../../api/product'
+import { getProductInCategory } from '../../../features/categoryPro/proInCateSlice'
 import { formatPercent, formatPrice } from '../../../utils/formatNumber'
 
 const ProductDetailPage = () => {
-    const [nameCate, setNameCate] = useState()
-    const [relatedProduct, setRelatedProduct] = useState()
-    const [product, setProduct] = useState()
+    // const [nameCate, setNameCate] = useState()
+    // const [relatedProduct, setRelatedProduct] = useState()
+    const [productOne, setProduct] = useState([])
+    const relatedProduct = useSelector(data => data.proInCate.value);
+    console.log("asasd", relatedProduct)
+    const idCate = productOne.categoryPro;
+    const dispatch = useDispatch()
 
     const navigate = useNavigate();
     const { productName } = useParams();
 
-    useEffect(() => {
-        const getProduct = async () => {
-            const { data } = await list()
-            const dataProduct = data.filter((item) => {
-                console.log(item.slug, productName);
-                return item.slug == productName
-            })
-            setProduct(dataProduct[0]._id);
+    // useEffect(() => {
+    //     const getProduct = async () => {
+    //         const { data } = await list()
+    //         const dataProduct = data.filter((item) => {
+    //             console.log(item.slug, productName);
+    //             return item.slug == productName
+    //         })
+    //         setProduct(dataProduct[0]._id);
 
-            const getCategoryPro = async () => {
-                const { data: dataCate } = await read(dataProduct.categoryPro);
-                const newDataProduct = dataCate.products.filter((item) => {
-                    return item._id != productName
-                })
-                setRelatedProduct(newDataProduct)
-                setNameCate(dataCate.category.name.toUpperCase())
-            }
-            getCategoryPro();
+    //         const getCategoryPro = async () => {
+    //             const { data: dataCate } = await read(dataProduct.categoryPro);
+    //             const newDataProduct = dataCate.products.filter((item) => {
+    //                 return item._id != productName
+    //             })
+    //             setRelatedProduct(newDataProduct)
+    //             setNameCate(dataCate.category.name.toUpperCase())
+    //         }
+    //         getCategoryPro();
+    //     }
+    //     getProduct();
+    // }, [productName])
+
+    useEffect(() => {
+        const getOneProduct = async () => {
+            const { data } = await read(productName)
+            setProduct(data)
         }
-        getProduct();
+        getOneProduct()
+        dispatch(getProductInCategory(idCate));
+        // const abc = relatedProduct.filter((item) => {
+        //     return item._id !== idCate
+        // })
     }, [productName])
 
     return (
@@ -46,12 +63,12 @@ const ProductDetailPage = () => {
                         <div className="grid-cols-custom grid gap-10">
                             <div className="flex flex-col justify-center">
                                 <div className="product-details__tag text-lg">
-                                    {(product?.salePrice) ? <span className="product-tag--sale">{formatPercent(product?.salePrice, product?.regularPrice)}</span> : ""}
+                                    {(productOne?.salePrice) ? <span className="product-tag--sale">{formatPercent(productOne?.salePrice, productOne?.regularPrice)}</span> : ""}
                                 </div>
-                                <h3 className="text-2xl my-3">{product?.name}</h3>
+                                <h3 className="text-2xl my-3">{productOne?.name}</h3>
                                 <div className="my-3">
-                                    <span className="text-2xl font-bold">{(product?.salePrice) ? formatPrice(product?.salePrice) : formatPrice(product?.regularPrice)}</span>
-                                    <span className="text-lg line-through">{(product?.salePrice) ? formatPrice(product?.regularPrice) : ""}</span>
+                                    <span className="text-2xl font-bold">{(productOne?.salePrice) ? formatPrice(productOne?.salePrice) : formatPrice(productOne?.regularPrice)}</span>
+                                    <span className="text-lg line-through">{(productOne?.salePrice) ? formatPrice(productOne?.regularPrice) : ""}</span>
                                 </div>
                                 <ul className="m-0 p-0">
                                     <li className="inline-block">
@@ -156,11 +173,11 @@ const ProductDetailPage = () => {
                         {/* <h4>Comment</h4> */}
                     </div>
                     <div className="py-5 px-12">
-                        <h4 className="text-2xl py-3">Related products <b>{nameCate}</b> </h4>
+                        <h4 className="text-2xl py-3">Related products <b></b> </h4>
                         <div className="renderNoProduct text-center"></div>
                         <div className="grid grid-cols-5 gap-5 max-w-7xl m-auto">
-                            {(relatedProduct.length === 0) ? <p className="text-orange-800">Have no related product!</p>
-                            : relatedProduct?.map((item) => {
+                            {(!relatedProduct.products) ? <p className="text-orange-800">Have no related product!</p>
+                                : relatedProduct.products?.map((item) => {
                                 return <div className="products__item bg-white radius-primary pt-[5px] px-[5px] pb-[10px]">
                                     <div className="relative overflow-hidden h-44">
                                         <Link to={`/product/${item._id}`}>
@@ -204,7 +221,6 @@ const ProductDetailPage = () => {
                             })}
                         </div>
                     </div>
-
                 </div>
             </div>
         </>

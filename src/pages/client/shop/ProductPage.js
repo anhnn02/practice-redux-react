@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import AsideCategory from '../../../components/client/Shop/AsideCategory';
 import ListProduct from '../../../components/client/Shop/ListProduct';
-
+import {listProduct} from '../../../features/product/productSlice';
 
 const ProductPage = () => {
+  const products = useSelector(data => data.product.value)
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(listProduct())
+  }, [])
+
   return (
     <>
       <div>
@@ -35,7 +43,7 @@ const ProductPage = () => {
                       </div>
                     </div>
                   </div>
-                  <ListProduct/>
+                  <ListProduct products={products}/>
                   <div className=" text-center my-4 renderPage">
                     <span className="show-page page-number">1</span>
                   </div>

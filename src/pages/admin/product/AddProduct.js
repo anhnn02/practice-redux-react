@@ -10,14 +10,12 @@ import { listCategory } from '../../../features/categoryPro/cateProSlice'
 const AddProduct = () => {
   const categoryProduct = useSelector(data => data.category.value);
   const { register, handleSubmit, formState: { errors } } = useForm();
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
     const slugProduct = slugify(data.name)
     const dataProduct = { ...data, slug: slugProduct };
-
     dispatch(addProduct(dataProduct));
     navigate('/admin/product')
   }

@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
-
-
+import { listCategory } from '../../../features/categoryPro/cateProSlice';
 
 const AsideCategory = () => {
-    const categories = [
-        { name: "Test redux", regularPrice: "100", img: "https://images.unsplash.com/photo-1644982649363-fae51da44eac?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80", desc: "abscjhasbjsdasascsa", size: "36, 37, 38", categoryPro: "624b16b66fb90d62cd866a2c" },
-        { name: "Test redux", regularPrice: "100", img: "https://images.unsplash.com/photo-1644982649363-fae51da44eac?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80", desc: "abscjhasbjsdasascsa", size: "36, 37, 38", categoryPro: "624b16b66fb90d62cd866a2c" }
+    const categories = useSelector((data => data.category.value))
+    const dispatch = useDispatch()
 
-    ]
+    useEffect(() => {
+        dispatch(listCategory())
+    })
     return (
         <aside className="rounded-lg bg-white py-5 px-3 sticky top-[10px]">
             <div className="shop__category-group">
@@ -26,7 +27,7 @@ const AsideCategory = () => {
                 <span className="ff-2">Category</span>
                 <ul className="category-item__list p-0">
                     {categories.map((item) => {
-                        return <li className="category-item__item list-none my-1 mx-0"> <NavLink to={`/categories/${item.slug}`}
+                        return <li className="category-item__item list-none my-1 mx-0"> <NavLink to={`/categories/${item._id}`}
                             className="cate-link inline-block w-full py-[6px] px-[5px] rounded-[5px] trans-second hover:bg-primary-15-color hover:text-primary-color">
                             {item.name} </NavLink> </li>
                     })}

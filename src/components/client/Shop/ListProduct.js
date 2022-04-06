@@ -1,19 +1,47 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { formatPrice, formatPercent } from '../../../utils/formatNumber';
+// import { listCategory } from '../../../features/categoryPro/cateProSlice';
+// import { listProduct } from '../../../features/product/productSlice';
+// import { getProductInCategory } from '../../../features/categoryPro/proInCateSlice';
 
-const ListProduct = () => {
-    const products = [
-        { name: "Test redux", regularPrice: "100", img: "https://images.unsplash.com/photo-1644982649363-fae51da44eac?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80", desc: "abscjhasbjsdasascsa", size: "36, 37, 38", categoryPro: "624b16b66fb90d62cd866a2c" },
-        { name: "Test redux", regularPrice: "100", img: "https://images.unsplash.com/photo-1644982649363-fae51da44eac?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80", desc: "abscjhasbjsdasascsa", size: "36, 37, 38", categoryPro: "624b16b66fb90d62cd866a2c" }
-    ]
+const ListProduct = ({ products }) => {
+    console.log("first", products);
+    // const proInCate = useSelector((data => data.product.value))
+    // const categories = useSelector((data => data.category.value))
+    // const dispatch = useDispatch();
+    // const { cateName } = useParams()
+
+    // useEffect(() => {
+    //     const getCate = async () => {
+    //         const { data } = await list();
+    //         const dataCate = categories.filter((item) => {
+    //             return item.slug == cateName
+    //         })
+    //         return dataCate
+    //     }
+    //     getCate()
+    //     console.log("getCate", getCate().then(data => data).);
+    //     dispatch(listProduct())
+    // }, [cateName])
+
+    // const {products} = useSelector(data => data.proInCate.value);
+    // const { cateName: IdCate } = useParams()
+    // const dispatch = useDispatch()
+
+    // useEffect(() => {
+    //     dispatch(getProductInCategory(IdCate))
+    // }, [IdCate])
+
     return (
         <div className="grid grid-cols-4 gap-5">
             {products?.map((item) => {
                 return <div className="products__item bg-white radius-primary pt-[5px] px-[5px] pb-[10px]">
                     <div className="relative overflow-hidden h-44">
                         {(item.salePrice) ? <span className="product-tag product-tag--sale">{formatPercent(item.salePrice, item.regularPrice)}</span> : ""}
-                        <Link to={`/product/${item.slug}`}>
+                        <Link to={`/product/${item._id}`}>
                             <img src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/61400c23-abfd-46ba-8335-c9bf701f5f74/nikecourt-zoom-nxt-hard-court-tennis-shoes-MPFhX3.png"
                                 alt="" className="item-img max-w-full h-44 w-full rounded-[7px] object-cover" />
                         </Link>
