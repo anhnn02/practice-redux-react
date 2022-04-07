@@ -56,10 +56,6 @@ img {
   @apply max-w-full
 }
 
-.radio+.radio {
-  margin-left: 5px;
-}
-
 .radio input {
   position: absolute;
   opacity: 0;
@@ -69,7 +65,7 @@ img {
 }
 
 .radio input~label {
-  @apply leading-snug border-[1.5px] border-gray-light rounded-[5px] cursor-pointer max-h-[30px];
+  @apply border-[1.5px] border-gray-light rounded-[5px] cursor-pointer max-h-[30px];
 }
 
 .radio input:checked~label {
@@ -323,19 +319,22 @@ img {
   cursor: pointer;
 
 }
+.page-number.active{
+  @apply bg-primary-color
+}
 
 .page-number:hover {
   background: var(--primary-15-color);
 }
 
-.page-number+.page-number {
+.show-page +.show-page {
   margin-left: 10px;
 }
 
-.active-page {
-  background: var(--primary-15-color);
-
+.product-search + .product-search{
+  @apply border-t
 }
+
 
 .tab .tablinks {
   background: none;

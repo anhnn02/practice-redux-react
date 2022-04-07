@@ -9,11 +9,9 @@ const ProductCate = () => {
     const {products} = useSelector(data => data.proInCate.value);
     const { cateName: idCate } = useParams()
     const dispatch = useDispatch()
-    console.log(idCate)
 
     useEffect(() => {
         dispatch(getProductInCategory(idCate))
-        console.log("abc", products);
     }, [idCate])
 
     return (

@@ -2,27 +2,32 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { read } from '../../../api/product'
+import { addItemToCart } from '../../../features/cart/cartSlice'
 import { relatedProduct as relatedPro, getProductInCategory } from '../../../features/categoryPro/proInCateSlice'
 import { formatPercent, formatPrice } from '../../../utils/formatNumber'
+import { splitArray } from '../../../utils/splitSize'
 
 const ProductDetailPage = () => {
-    const dispatch = useDispatch();
     const [productOne, setProduct] = useState([])
     const relatedProduct = useSelector(data => data.proInCate.value);
-    console.log("sdasdasdasda", relatedProduct.relatedProduct)
-
+    const dispatch = useDispatch();
     const { productName } = useParams();
-    
+
+    const handleAddToCart = (product) => {
+        console.log("first", product)
+        dispatch(addItemToCart(product))
+    }
+
     useEffect(() => {
         (async () => {
             const { data } = await read(productName);
             setProduct(data)
-            const id = {idCate: data?.categoryPro, idPro: productName}
-            // dispatch(getProductInCategory(data?.categoryPro))
+            const id = { idCate: data?.categoryPro, idPro: productName }
             dispatch(relatedPro(id))
-            console.log("relatedProduct", relatedProduct)
         })();
     }, [productName])
+
+    
 
     return (
         <>
@@ -40,7 +45,7 @@ const ProductDetailPage = () => {
                                 </div>
                                 <h3 className="text-2xl my-3">{productOne?.name}</h3>
                                 <div className="my-3">
-                                    <span className="text-2xl font-bold">{(productOne?.salePrice) ? formatPrice(productOne?.salePrice) : formatPrice(productOne?.regularPrice)}</span>
+                                    <span className="text-2xl font-bold pr-1">{(productOne?.salePrice) ? formatPrice(productOne?.salePrice) : formatPrice(productOne?.regularPrice)}</span>
                                     <span className="text-lg line-through">{(productOne?.salePrice) ? formatPrice(productOne?.regularPrice) : ""}</span>
                                 </div>
                                 <ul className="m-0 p-0">
@@ -59,13 +64,13 @@ const ProductDetailPage = () => {
                                 </ul>
                             </div>
                             <div className="flex flex-col justify-center">
-                                <img src="https://images.unsplash.com/photo-1534353436294-0dbd4bdac845?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
+                                <img src={productOne?.img}
                                     alt="" className="img-fluid" />
                             </div>
                             <div className="flex flex-col justify-center">
-                                <div className="col-right-item mb-4 grid grid-cols-6 gap-2">
+                                <div className="col-right-item mb-4 grid grid-cols-5 gap-2">
                                     <span className="text-[15px] pt-2">Review</span>
-                                    <div className="text-lg col-span-5">
+                                    <div className="text-lg col-span-4">
                                         <i className="bi bi-star-fill"></i>
                                         <i className="bi bi-star-fill"></i>
                                         <i className="bi bi-star-fill"></i>
@@ -74,37 +79,31 @@ const ProductDetailPage = () => {
                                         <span className="product-details__review-quantity">(10)</span>
                                     </div>
                                 </div>
-                                <div className="col-right-item grid grid-cols-6 gap-2">
+                                <div className="col-right-item grid grid-cols-5 gap-2">
                                     <span className="text-[15px] ">Size</span>
-                                    <div className="px-2 w-full flex justify-center items-center col-span-5">
+                                    <div className="w-full flex justify-center items-center col-span-4">
                                         <div className="mb-2">
                                             <div className="w-full">
-                                                <div className="grid grid-cols-6 xl:grid-cols-6 gap-2 w-full">
-                                                    <div className="radio">
-                                                        <input name="sizeProduct" type="radio" id="sizeProduct-${i}" defaultValue="${size}" />
-                                                        <label htmlFor="sizeProduct-${i}"
-                                                            className="px-[10px] py-[14px] rounded flex justify-center items-center text-sm lg:text-lg w-5 h-5 lg:w-10 lg:h-14">
-                                                            {/* ${size} */}
-                                                            38
-                                                        </label>
-                                                    </div>
-                                                    <div className="radio">
-                                                        <input name="sizeProduct" type="radio" id="sizeProduct-${is}" defaultValue="${size}" />
-                                                        <label htmlFor="sizeProduct-${is}"
-                                                            className="px-[14px] py-[14px] rounded flex justify-center items-center text-sm lg:text-lg w-5 h-5 lg:w-10 lg:h-14">
-                                                            {/* ${size} */}
-                                                            38
-                                                        </label>
-                                                    </div>
+                                                <div className="grid grid-cols-6 xl:grid-cols-6 gap-3 w-full">
+                                                    {/* {console.log("asdnsa", splitArray(productOne?.size))} */}
+                                                    {(productOne?.size) ? splitArray(productOne?.size).map((size, index) => {
+                                                        return <div className="radio">
+                                                            <input name="sizeProduct" type="radio" id={`sizeProduct-${index}`} defaultValue={size} />
+                                                            <label htmlFor={`sizeProduct-${index}`}
+                                                                className="px-4 py-1 rounded flex justify-center items-center text-sm lg:text-lg ">
+                                                                {size}
+                                                            </label>
+                                                        </div>
+                                                    }) : ""}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col-right-item mb-4 product-details__quantity">
-                                    <div className="mb-4 grid grid-cols-6 gap-2">
+                                    <div className="mb-4 grid grid-cols-5 gap-2">
                                         <span className="text-[15px] ">Quantity </span>
-                                        <span className="text-[15px] font-bold col-span-5">100</span>
+                                        <span className="text-[15px] font-bold col-span-4"> 100</span>
                                     </div>
                                     <input
                                         className="quantity__input shadow appearance-none border rounded max-w-2  py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -112,6 +111,7 @@ const ProductDetailPage = () => {
                                         defaultValue="1" />
                                 </div>
                                 <button
+                                    onClick={() => dispatch(handleAddToCart(productOne))}
                                     id="btnAddToCart"
                                     className="max-w-[200px] w-auto min-w-[120px] rounded bg-primary-15-color text-primary-color border-none py-[5px] px-[15px] cursor-pointer outline-none duration-500 hover:bg-primary-color hover:text-white">
                                     ADD TO CART
@@ -131,9 +131,7 @@ const ProductDetailPage = () => {
                         </div>
 
                         <div id="Description" className="tabcontent">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non natus omnis molestias laborum
-                                deleniti recusandae dolorem ipsam ex earum labore, laudantium minus, tempora adipisci nulla iste
-                                consequatur eaque. Tenetur, optio?</p>
+                            <p>{productOne?.desc}</p>
                         </div>
 
                         <div id="Shipping" className="tabcontent">
@@ -146,7 +144,7 @@ const ProductDetailPage = () => {
                         {/* <h4>Comment</h4> */}
                     </div>
                     <div className="py-5 px-12">
-                        <h4 className="text-2xl py-3">Related products <b>{relatedProduct.category.name.toUpperCase()}</b></h4>
+                        <h4 className="text-2xl py-3">Related products <b></b></h4>
                         <div className="renderNoProduct text-center"></div>
                         <div className="grid grid-cols-5 gap-5 max-w-7xl m-auto">
                             {(!relatedProduct.relatedProduct || relatedProduct.relatedProduct.length == 0) ? <p className="text-orange-800">Have no related product!</p>
@@ -154,7 +152,7 @@ const ProductDetailPage = () => {
                                     return <div key={index} className="products__item bg-white radius-primary pt-[5px] px-[5px] pb-[10px]">
                                         <div className="relative overflow-hidden h-44">
                                             <Link to={`/product/${item._id}`}>
-                                                <img src="https://images.unsplash.com/photo-1534353436294-0dbd4bdac845?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
+                                                <img src={item.img}
                                                     alt="" className="item-img max-w-full h-44 w-full rounded-[7px] object-cover" />
                                             </Link>
                                             <button className="btn-favorite btn-favorite-1"><i className="bi bi-heart"></i><i
@@ -167,14 +165,13 @@ const ProductDetailPage = () => {
                                                 {item.name}</a></h3>
                                             <div className="flex justify-between items-center">
                                                 <div className="">
-                                                    <span className="product__price product__price--now">{(item.salePrice) ? formatPrice(item.salePrice) : formatPrice(item.regularPrice)}</span>
+                                                    <span className="product__price product__price--now pr-1">{(item.salePrice) ? formatPrice(item.salePrice) : formatPrice(item.regularPrice)}</span>
                                                     <span className="product__price product__price--old">{(item.salePrice) ? formatPrice(item.regularPrice) : ""}</span>
                                                 </div>
                                                 <div className="product-group__variation">
-
-                                                    <span className="variation__item">36</span>
-                                                    <span className="variation__item">37</span>
-                                                    <span className="variation__item">38</span>
+                                                    {splitArray(item?.size).map(((size) => {
+                                                        return <span className="variation__item">{size}</span>
+                                                    }))}
                                                 </div>
                                             </div>
                                             <div className="flex justify-between items-center mt-1">

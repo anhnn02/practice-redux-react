@@ -12,8 +12,11 @@ const ActionAuth = () => {
         }
     }
 
-    const logout = () => {
-        localStorage.removeItem('user');
+    const logout = ()=>{
+        if(localStorage.getItem('user')){
+            localStorage.removeItem('user');
+            setOpenLogin(false)
+        }
     }
     return (
         <div className="flex justify-between items-center min-w-[110px]">
@@ -28,7 +31,7 @@ const ActionAuth = () => {
 
                     {openLogin && (
                         <div className="absolute shadow overflow-hidden color-[#fff] w-[220px] right-3 transition-all z-40 bg-white rounded-md">
-                            <Link to="" className="block px-3 py-2 hover:bg-gray-100">Profile</Link>
+                            <Link to="/profile" className="block px-3 py-2 hover:bg-gray-100">Profile</Link>
                             <Link to="" className="block px-3 py-2 hover:bg-gray-100">Setting</Link>
                             <Link to="" onClick={() => { logout() }} className="block px-3 py-2 hover:bg-gray-100">Log out</Link>
                         </div>

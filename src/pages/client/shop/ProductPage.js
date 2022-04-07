@@ -1,17 +1,43 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import AsideCategory from '../../../components/client/Shop/AsideCategory';
 import ListProduct from '../../../components/client/Shop/ListProduct';
-import {listProduct} from '../../../features/product/productSlice';
+import { getProductFilter, getProductPage, listProduct } from '../../../features/product/productSlice';
 
 const ProductPage = () => {
+  let [reRenderPage, setReRenderPage] = useState(0)
   const products = useSelector(data => data.product.value)
+  const dataProductPage = useSelector(data => data.product.valueLimitPage);
+  const dataProductFilter = useSelector(data => data.product.valueFilter)
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { page } = useParams()
 
   useEffect(() => {
+    if (page > totalPage.length) {
+      navigate('/categories/all/1')
+    }
+    dispatch(getProductPage(page))
     dispatch(listProduct())
-  }, [])
 
+  }, [page, reRenderPage])
+
+  // pagination products
+  const totalPage = []
+  for (let index = 1; index <= Math.ceil(products.length / 8); index++) {
+    totalPage.push(index)
+  }
+
+  const handleOnChange = (value) => {
+    const filter = {
+      page: page,
+      order: value
+    }
+    dispatch(getProductFilter(filter))
+    setReRenderPage(reRenderPage++)
+  }
   return (
     <>
       <div>
@@ -28,13 +54,14 @@ const ProductPage = () => {
                     <h4 className="text-2xl font-bold m-0">Products</h4>
                     <div className="text-gray-darker flex justify-between items-center">
                       <select
+                        onChange={(e) => handleOnChange(e.target.value)}
                         className="form-select form-select-sm appearance-none block w-full px-6 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                         aria-label=".form-select-sm example">
-                        <option value="1">Default</option>
-                        <option value="2">A-Z</option>
-                        <option value="3">Z-A</option>
-                        <option value="4">Price: Low-High</option>
-                        <option value="5">Price: High-Low</option>
+                        <option value="-createdAt">Default</option>
+                        <option value="name">A-Z</option>
+                        <option value="-name">Z-A</option>
+                        <option value="-price">Price: Low-High</option>
+                        <option value="price">Price: High-Low</option>
                       </select>
                       <div
                         className="ml-2 border-gray-primary flex px-6 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded">
@@ -43,9 +70,12 @@ const ProductPage = () => {
                       </div>
                     </div>
                   </div>
-                  <ListProduct products={products}/>
+                  {dataProductPage && <ListProduct products={dataProductPage} />}
+                  
                   <div className=" text-center my-4 renderPage">
-                    <span className="show-page page-number">1</span>
+                    {totalPage.map((page, index) => (
+                      <span key={index} className="show-page"><NavLink to={`/categories/all/${page}`} className="page-number">{page}</NavLink></span>
+                    ))}
                   </div>
                 </div>
               </div>

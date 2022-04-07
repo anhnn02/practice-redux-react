@@ -62,14 +62,14 @@ const SearchForm = () => {
                             <div className="max-h-[400px] overflow-auto">
                                 {resultSearch ? resultSearch?.map((item, index) => {
                                     return (
-                                        <div key={index} className="grid grid-cols-4 w-full border-b py-2">
+                                        <div key={index} className="product-search grid grid-cols-4 w-full py-2">
                                             <div className="col-span-3">
-                                                <Link to={`product/${item._id}`} className="block font-bold truncate w-[220px] text-lg text-orange-800">{item.name}</Link>
-                                                <span>Size: 38</span>
+                                                <Link to={`product/${item._id}`} className=" block truncate w-[220px] text-sm text-orange-800">{item.name}</Link>
+                                                <span className="text-sm">Size: {item.size}</span>
                                                 <p>
                                                     <span className="product__price--now">{(item.salePrice) ? formatPrice(item.salePrice) : formatPrice(item.regularPrice)} </span>
                                                     <span className="product__price--old">{(item.salePrice) ? formatPrice(item.regularPrice) : ""}</span>
-                                                </p>p
+                                                </p>
                                             </div>
                                             <Link to="">
                                                 <img src={item.img} className="w-full h-18 object-cover" alt="" />
@@ -100,26 +100,6 @@ const SearchForm = () => {
                                     </p>
                                 </div> */}
                             </div>
-                            {/* <Link to="" className="block px-3 py-2 hover:bg-gray-100">Profile</Link>
-                            <Link to="" className="block px-3 py-2 hover:bg-gray-100">Setting</Link>
-                            <Link to="" onClick={() => { logout() }} className="block px-3 py-2 hover:bg-gray-100">Log out</Link> 
-                            
-                            <div className="">
-                                        <div className="">
-                                            <img src="" alt="" />
-                                        </div>
-                                        <div className="">
-                                            <p>Abc</p>
-                                            <span>38</span>
-                                            <p>
-                                                <span>$180.00</span>
-                                                <span>$180.00</span>
-                                            </p>
-                                        </div>
-                                        <button></button>
-                                        {item.name}
-                                    </div>
-                            */}
                         </div>
                     )
                 }

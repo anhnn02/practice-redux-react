@@ -10,7 +10,7 @@ const Menu = () => {
                         className="menu-item-link content-none pb-2 pt-2 trans-second ">Home</NavLink>
                 </li>
                 <li className="inline-block pr-[30px] duration-300 ">
-                    <NavLink to="/categories/all"
+                    <NavLink to="/categories/all/1"
                         className="menu-item-link content-none pb-2 pt-2 trans-second ">Shop</NavLink>
                 </li>
                 <li className="inline-block pr-[30px] duration-300 ">

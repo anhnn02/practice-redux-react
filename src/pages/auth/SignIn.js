@@ -8,16 +8,18 @@ const SignIn = () => {
     const { register, handleSubmit, formState: { errors } } = useForm()
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const {user} = useSelector(data => data.user.current)
+    const isAuthenticate = useSelector(data => data.user.isAuthenticate)
+    const auth = useSelector(data => data.user.current)
 
     const onSubmit = (data) => {
         dispatch(signin(data))
-
-        if (user.role == 1) {
-            navigate('/admin')
-        } else {
-            navigate('/')
-        }
+        // if (isAuthenticate) {
+        //     if (auth.user.role == 1) {
+        //         navigate("/admin")
+        //     } else {
+        //         navigate("/")
+        //     }
+        // }
     }
 
     return (

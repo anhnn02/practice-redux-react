@@ -16,10 +16,10 @@ const EditProduct = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const { id } = useParams()
-    console.log("id", id)
 
     const onSubmit = (data) => {
         const slugProduct = slugify(data.name)
+        console.log("data", data)
         const dataProduct = { ...data, slug: slugProduct };
         dispatch(updateProduct(dataProduct));
         navigate('/admin/product')
@@ -122,7 +122,7 @@ const EditProduct = () => {
                                 <input
                                     {...register('salePrice')}
                                     className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:-outline"
-                                    id="price-product" type="number" name="price-product" />
+                                    id="price-product" type="number"/>
                                 {/* {errors.salePrice && <span>Field is required!</span>} */}
                             </div>
                         </div>

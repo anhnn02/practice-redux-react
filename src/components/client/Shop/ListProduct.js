@@ -1,38 +1,9 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import React from 'react'
 import { Link } from 'react-router-dom';
 import { formatPrice, formatPercent } from '../../../utils/formatNumber';
-// import { listCategory } from '../../../features/categoryPro/cateProSlice';
-// import { listProduct } from '../../../features/product/productSlice';
-// import { getProductInCategory } from '../../../features/categoryPro/proInCateSlice';
+import { splitArray } from '../../../utils/splitSize';
 
 const ListProduct = ({ products }) => {
-    // const proInCate = useSelector((data => data.product.value))
-    // const categories = useSelector((data => data.category.value))
-    // const dispatch = useDispatch();
-    // const { cateName } = useParams()
-
-    // useEffect(() => {
-    //     const getCate = async () => {
-    //         const { data } = await list();
-    //         const dataCate = categories.filter((item) => {
-    //             return item.slug == cateName
-    //         })
-    //         return dataCate
-    //     }
-    //     getCate()
-    //     console.log("getCate", getCate().then(data => data).);
-    //     dispatch(listProduct())
-    // }, [cateName])
-
-    // const {products} = useSelector(data => data.proInCate.value);
-    // const { cateName: IdCate } = useParams()
-    // const dispatch = useDispatch()
-
-    // useEffect(() => {
-    //     dispatch(getProductInCategory(IdCate))
-    // }, [IdCate])
 
     return (
         <div className="grid grid-cols-4 gap-5">
@@ -41,7 +12,7 @@ const ListProduct = ({ products }) => {
                     <div className="relative overflow-hidden h-44">
                         {(item.salePrice) ? <span className="product-tag product-tag--sale">{formatPercent(item.salePrice, item.regularPrice)}</span> : ""}
                         <Link to={`/product/${item._id}`}>
-                            <img src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/61400c23-abfd-46ba-8335-c9bf701f5f74/nikecourt-zoom-nxt-hard-court-tennis-shoes-MPFhX3.png"
+                            <img src={item.img}
                                 alt="" className="item-img max-w-full h-44 w-full rounded-[7px] object-cover" />
                         </Link>
                         <button className="btn-favorite btn-favorite-1"><i className="bi bi-heart"></i><i
@@ -60,9 +31,10 @@ const ListProduct = ({ products }) => {
                                 <span className="product__price product__price--old">{(item.salePrice) ? formatPrice(item.regularPrice) : ""}</span>
                             </div>
                             <div className="product-group__variation">
-                                <span className="variation__item">36</span>
-                                <span className="variation__item">37</span>
-                                <span className="variation__item">38</span>
+                                {splitArray(item?.size).map(((size) => {
+                                    return <span className="variation__item">{size}</span>
+                                }))}
+
                             </div>
                         </div>
                         <div className="flex justify-between items-center mt-1">

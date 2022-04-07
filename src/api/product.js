@@ -43,3 +43,24 @@ export const search = (keyword) => {
     const url = `search?name=${keyword}`;
     return instance.get(url);
 }
+
+// export const filter = (order) => {
+//     let url = "filter?page=1&limit=8"
+//     console.log("order", order);
+//     if (order.order != "0") {
+//         url = `product/filter?page=${order.page}&limit=8&sort=${order.order}`
+//     } else {
+//         url = `product/filter?page=${order.page}&limit=8`
+//     }
+//     return instance.get(url)
+// }
+
+export const filterPage = (page) => {
+    const url = `filter?page=${page}&limit=8`
+    return instance.get(url)
+}
+
+export const filterProduct = (page, order) => {
+    const url = `filter?page=${page}&limit=8&sort=${order}`
+    return instance.get(url)
+}

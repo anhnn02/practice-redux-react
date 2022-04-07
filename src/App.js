@@ -18,6 +18,11 @@ import CartPage from './pages/client/cart/CartPage';
 import CheckoutPage from './pages/client/cart/CheckoutPage';
 import OrderSuccessfully from './pages/client/cart/OrderSuccessfully';
 
+import UserProfileLayout from './pages/layouts/UserProfiileLayout';
+import Profile from './components/user/Profile';
+import Information from './components/user/Information';
+import Order from './components/user/Order';
+
 import AdminLayout from './pages/layouts/AdminLayout';
 import Dashboard from './pages/admin/Dashboard';
 import CategoryProduct from './pages/admin/cateProduct/Category';
@@ -31,11 +36,9 @@ import SignIn from './pages/auth/SignIn';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import AuthLayout from './pages/layouts/AuthLayout';
 import ResetPassword from './pages/auth/ResetPassword';
-
+import PrivateRouter from './components/PrivateRouter';
 
 import Page404 from './pages/Page404';
-
-
 
 function App() {
   const product = useSelector(data => data.product.value)
@@ -51,7 +54,7 @@ function App() {
         {/* Website */}
         <Route path="/" element={<WebsiteLayout />}>
           <Route index element={<HomePage />} />
-          <Route path="/categories/all" element={<ProductPage />} />
+          <Route path="/categories/all/:page" element={<ProductPage />} />
           <Route path="/categories/:cateName" element={<ProductCatePage />} />
           <Route path="/news" element={<NewsPage />} />
           <Route path="/detail" element={<DetailNewsPage />} />
@@ -61,6 +64,12 @@ function App() {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/order-success" element={<OrderSuccessfully />} />
           <Route path="/product/:productName" element={<ProductDetailPage />} />
+
+          <Route path="/profile" element={<UserProfileLayout />}>
+            <Route index element={<Profile />} />
+            {/* <Route path="/order" element={<Order />} />
+            <Route path="/information" element={<Information />} /> */}
+          </Route>
         </Route>
 
         {/* auth */}
@@ -72,8 +81,7 @@ function App() {
         </Route>
 
         {/* Admin */}
-        {/* <Route path="admin" element={<PrivateRouter><AdminLayout /></PrivateRouter>}> */}
-        <Route path="admin" element={<AdminLayout />}>
+        <Route path="admin" element={<PrivateRouter><AdminLayout /></PrivateRouter>}>
           <Route index element={<Navigate to="dashboard" />} />
           <Route path="dashboard" element={<Dashboard />} />
 

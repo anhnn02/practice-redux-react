@@ -12,9 +12,9 @@ const Register = () => {
     const onSubmit = (data) => {
         try {
             dispatch(signup(data))
-            navigate('/signin')
+            // navigate('/signin')
         } catch (error) {
-            
+            console.log(error)
         }
     }
 

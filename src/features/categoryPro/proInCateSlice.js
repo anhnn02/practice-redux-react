@@ -33,7 +33,6 @@ const proInCateSlice = createSlice({
         })
         
         builder.addCase(relatedProduct.fulfilled, (state, action) => {
-            console.log("action", action)
             state.value = action.payload
         })
         builder.addCase(relatedProduct.rejected, (state, action) => {

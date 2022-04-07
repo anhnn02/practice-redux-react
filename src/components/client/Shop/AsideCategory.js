@@ -9,7 +9,7 @@ const AsideCategory = () => {
 
     useEffect(() => {
         dispatch(listCategory())
-    })
+    },[])
     return (
         <aside className="rounded-lg bg-white py-5 px-3 sticky top-[10px]">
             <div className="shop__category-group">

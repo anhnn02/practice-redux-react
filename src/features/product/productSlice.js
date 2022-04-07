@@ -1,4 +1,4 @@
-import { list, read, create, remove, update } from "../../api/product";
+import { list, read, create, remove, update, filterPage, filterProduct } from "../../api/product";
 
 const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 
@@ -48,11 +48,27 @@ export const getProductInCategory = createAsyncThunk(
     }
 )
 
+export const getProductPage = createAsyncThunk(
+    "product/getProductPage",
+    async (numberPage, thunkAPI) => {
+        const { data } = await filterPage(numberPage);
+        return data
+    }
+)
+
+export const getProductFilter = createAsyncThunk(
+    "product/getProductFilter",
+    async (filter, thunkAPI) => {
+        const { data } = await filterProduct(filter.page, filter.order);
+        return data
+    }
+)
 const productSlice = createSlice({
     name: "product",
     initialState: {
         value: [],
-        proInCate: [],
+        valueLimitPage: [],
+        status: null
     },
     extraReducers: (builder) => { 
         builder.addCase(listProduct.fulfilled, (state, action) => {
@@ -77,6 +93,13 @@ const productSlice = createSlice({
         builder.addCase(getProductInCategory.fulfilled, (state, action) => {
             state.proInCate = action.payload
         })
+        builder.addCase(getProductPage.fulfilled, (state, action) => {
+            state.valueLimitPage = action.payload
+        })
+        builder.addCase(getProductFilter.fulfilled, (state, action) => {
+            state.valueLimitPage = action.payload
+        })
+
     }
     
 })

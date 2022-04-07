@@ -1,13 +1,17 @@
-// import React from 'react'
-// import { Navigate } from 'react-router-dom';
+import React from 'react'
+import { Navigate } from 'react-router-dom';
+import { isAuthenticate } from '../utils/localstorage';
 
+const PrivateRouter = (props) => {
+    const { user } = isAuthenticate()
+    if (user.role) {
+        if (user.role !== 1) {
+            return <Navigate to="/" />
+        } 
+        return props.children
+    } else {
+        return <Navigate to="/" />
+    }
+}
 
-// const PrivateRouter = () => {
-//     const { user } = JSON.parse(localStorage.getItem('user'))
-//     if (user.role != 1) {
-//         return <Navigate to="/signin" />
-//     } 
-//     return children
-// }
-
-// export default PrivateRouter
+export default PrivateRouter
