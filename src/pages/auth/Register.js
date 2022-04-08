@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import {useForm} from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { signup } from '../../features/user/userSlice'
 import { useDispatch } from 'react-redux'
 
@@ -10,12 +10,7 @@ const Register = () => {
     const navigate = useNavigate();
 
     const onSubmit = (data) => {
-        try {
-            dispatch(signup(data))
-            // navigate('/signin')
-        } catch (error) {
-            console.log(error)
-        }
+        dispatch(signup(data))
     }
 
     return (
@@ -34,7 +29,7 @@ const Register = () => {
                     <div className="form__item input-container">
                         <div className="relative">
                             <input id="full-name"
-                                {...register('name', {required: true})}
+                                {...register('name', { required: true })}
                                 placeholder="Fullname"
                                 className="auth__input p-[10px] radius-primary w-[350px] border-[1.2px] border-solid border-gray-primary text-sm outline-none trans-second focus:border-primary-color" type="text" />
                             {/* <!--

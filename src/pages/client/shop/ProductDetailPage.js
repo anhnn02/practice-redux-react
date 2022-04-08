@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { read } from '../../../api/product'
@@ -6,16 +7,34 @@ import { addItemToCart } from '../../../features/cart/cartSlice'
 import { relatedProduct as relatedPro, getProductInCategory } from '../../../features/categoryPro/proInCateSlice'
 import { formatPercent, formatPrice } from '../../../utils/formatNumber'
 import { splitArray } from '../../../utils/splitSize'
+import { toastr } from 'react-redux-toastr'
 
 const ProductDetailPage = () => {
+    const [quantity, setQuantity] = useState(1)
     const [productOne, setProduct] = useState([])
     const relatedProduct = useSelector(data => data.proInCate.value);
+    const { register, handleSubmit, formState: { errors } } = useForm()
     const dispatch = useDispatch();
     const { productName } = useParams();
 
     const handleAddToCart = (product) => {
-        console.log("first", product)
-        dispatch(addItemToCart(product))
+        const itemCart = {
+            _id: productOne._id + product.size,
+            idPro: productOne._id,
+            size: product.size,
+            img: productOne.img,
+            // quantity: quantity * 1,
+            quantity: 1,
+            name: productOne.name,
+            desc: productOne.desc,
+            regularPrice: productOne.regularPrice * 1,
+            salePrice: productOne.salePrice * 1,
+            categoryProduct: productOne.categoryPro,
+            total: (productOne.salePrice) ? productOne.salePrice * quantity : productOne.regularPrice * quantity
+        }
+        dispatch(addItemToCart(itemCart))
+        setQuantity(1)
+        toastr.success("Cart", "Add to cart successfully")
     }
 
     useEffect(() => {
@@ -27,7 +46,18 @@ const ProductDetailPage = () => {
         })();
     }, [productName])
 
-    
+    const incrementQuantity = () => {
+        setQuantity(quantity + 1)
+    }
+    const decrementQuantity = () => {
+        if (quantity < 2) {
+            setQuantity(1)
+        } else {
+            setQuantity(quantity - 1)
+        }
+
+    }
+
 
     return (
         <>
@@ -79,44 +109,46 @@ const ProductDetailPage = () => {
                                         <span className="product-details__review-quantity">(10)</span>
                                     </div>
                                 </div>
-                                <div className="col-right-item grid grid-cols-5 gap-2">
-                                    <span className="text-[15px] ">Size</span>
-                                    <div className="w-full flex justify-center items-center col-span-4">
-                                        <div className="mb-2">
-                                            <div className="w-full">
-                                                <div className="grid grid-cols-6 xl:grid-cols-6 gap-3 w-full">
-                                                    {/* {console.log("asdnsa", splitArray(productOne?.size))} */}
-                                                    {(productOne?.size) ? splitArray(productOne?.size).map((size, index) => {
-                                                        return <div className="radio">
-                                                            <input name="sizeProduct" type="radio" id={`sizeProduct-${index}`} defaultValue={size} />
-                                                            <label htmlFor={`sizeProduct-${index}`}
-                                                                className="px-4 py-1 rounded flex justify-center items-center text-sm lg:text-lg ">
-                                                                {size}
-                                                            </label>
-                                                        </div>
-                                                    }) : ""}
+                                <form action="" onSubmit={handleSubmit(handleAddToCart)}>
+                                    <div className="col-right-item grid grid-cols-5 gap-2">
+                                        <span className="text-[15px] ">Size</span>
+                                        <div className="w-full flex justify-center items-center col-span-4">
+                                            <div className="mb-2">
+                                                <div className="w-full">
+                                                    <div className="grid grid-cols-6 xl:grid-cols-6 gap-3 w-full">
+                                                        {/* {console.log("asdnsa", splitArray(productOne?.size))} */}
+                                                        {(productOne?.size) ? splitArray(productOne?.size).map((size, index) => {
+                                                            return <div className="radio">
+                                                                <input type="radio" {...register('size', { required: true })} id={`sizeProduct-${index}`} defaultValue={size} />
+                                                                <label htmlFor={`sizeProduct-${index}`}
+                                                                    className="px-4 py-1 rounded flex justify-center items-center text-sm lg:text-lg ">
+                                                                    {size}
+                                                                </label>
+                                                            </div>
+                                                        }) : ""}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="col-right-item mb-4 product-details__quantity">
-                                    <div className="mb-4 grid grid-cols-5 gap-2">
-                                        <span className="text-[15px] ">Quantity </span>
-                                        <span className="text-[15px] font-bold col-span-4"> 100</span>
+                                    <div className="col-right-item mb-4 product-details__quantity">
+                                        <div className="mb-4 grid grid-cols-5 gap-2">
+                                            <span className="text-[15px] ">Quantity </span>
+                                            <span className="text-[15px] font-bold col-span-4"> 100</span>
+                                        </div>
+                                        <input
+                                            className="quantity__input shadow appearance-none border rounded max-w-2  py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                            type="number"
+                                            defaultValue="1" />
                                     </div>
-                                    <input
-                                        className="quantity__input shadow appearance-none border rounded max-w-2  py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                        type="number"
-                                        defaultValue="1" />
-                                </div>
-                                <button
-                                    onClick={() => dispatch(handleAddToCart(productOne))}
-                                    id="btnAddToCart"
-                                    className="max-w-[200px] w-auto min-w-[120px] rounded bg-primary-15-color text-primary-color border-none py-[5px] px-[15px] cursor-pointer outline-none duration-500 hover:bg-primary-color hover:text-white">
-                                    ADD TO CART
-                                    <i className="bi bi-bag"></i>
-                                </button>
+                                    <button
+                                        id="btnAddToCart"
+                                        className="max-w-[200px] w-auto min-w-[120px] rounded bg-primary-15-color text-primary-color border-none py-[5px] px-[15px] cursor-pointer outline-none duration-500 hover:bg-primary-color hover:text-white">
+                                        ADD TO CART
+                                        <i className="bi bi-bag"></i>
+                                    </button>
+                                </form>
+
                             </div>
                         </div>
                     </div>

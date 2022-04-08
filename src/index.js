@@ -20,7 +20,7 @@ ReactDOM.render(
             preventDuplicates
             position="top-center"
             getState={(state) => state.toastr} // This is the default
-            transitionIn="fadeIn"
+            transitionIn="bounceInDown"
             transitionOut="fadeOut"
             progressBar
             closeOnToastrClick />

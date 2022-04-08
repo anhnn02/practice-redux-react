@@ -1,8 +1,17 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import CartTable from '../../../components/client/Cart/CartTable'
+import { formatPrice } from '../../../utils/formatNumber'
+import { useSelector } from 'react-redux'
 
 const CartPage = () => {
+    const cartTotalQuantity = useSelector(data => data.cart.totalQuantity)
+    const cart = useSelector(data => data.cart.items)
+    let subTotal = 0;
+    cart.forEach((item) => {
+        subTotal += item.total;
+    });
+    let totalAmount = subTotal + 5
     return (
         <>
             <div className="bg-bgr-color">
@@ -12,7 +21,7 @@ const CartPage = () => {
                         </h3>
                         <CartTable />
                         <div className="my-5">
-                            <NavLink className="font-bold text-primary-color" to="/shop">
+                            <NavLink className="font-bold text-primary-color" to="/categories/all/1">
                                 <i className="bi bi-arrow-left-short"></i> Continue Shopping
                             </NavLink>
                         </div>
@@ -21,7 +30,7 @@ const CartPage = () => {
                         <h4 className="text-xl pb-5">Order summary</h4>
                         <div className="flex justify-between items-center border-b border-gray-primary py-2 mb-3">
                             <span>Item(s)</span>
-                            <span>1</span>
+                            <span>{cartTotalQuantity}</span>
                         </div>
                         <div className="">
                             <input
@@ -46,6 +55,7 @@ const CartPage = () => {
                                 <div className="flex justify-between items-center py-2">
                                     <span>Subtotal</span>
                                     <span className="sub-total font-bold">
+                                        {formatPrice(subTotal)}
                                     </span>
                                 </div>
                                 <div className="flex justify-between items-center py-2">
@@ -60,7 +70,7 @@ const CartPage = () => {
                             <div className="py-1 border-gray-primary">
                                 <div className="flex justify-between items-center pb-2">
                                     <span className="font-bold">Total</span>
-                                    <span className="total font-bold text-lg text-primary-color">183 $</span>
+                                    <span className="total font-bold text-lg text-primary-color">{formatPrice(totalAmount)}</span>
                                 </div>
                             </div>
                         </div>

@@ -8,11 +8,11 @@ export const signup = createAsyncThunk(
         console.log(userData)
         try {
             const { data } = await register(userData);
-            toastr.success("Success", "User registered successfully");
+            toastr.success("User registered successfully");
             return data;
         } catch (error) {
-            console.log("error ne", error)
-            toastr.error("Register failed", error.response.data.msg);
+            console.log(error)
+            toastr.error( error.response.data.msg);
         }
     }
 )
@@ -23,10 +23,9 @@ export const signin = createAsyncThunk(
         try {
             const { data } = await login(userData);
             localStorage.setItem("user", JSON.stringify(data))
-            toastr.success("Success ", "Login successfully");
             return data;
         } catch (error) {
-            // toastr.error("Đăng nhập thất bại", error.response.data.message);
+            toastr.error("Failed to login", error.response.data.message);
         }
     }
 )

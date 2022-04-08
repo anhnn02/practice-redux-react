@@ -1,25 +1,32 @@
 import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector} from 'react-redux'
-import { signin } from '../../features/user/userSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { toastr } from 'react-redux-toastr'
+import { login } from "../../api/auth"
+import {isAuthenticate} from "../../utils/localstorage"
 
 const SignIn = () => {
     const { register, handleSubmit, formState: { errors } } = useForm()
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const isAuthenticate = useSelector(data => data.user.isAuthenticate)
-    const auth = useSelector(data => data.user.current)
 
-    const onSubmit = (data) => {
-        dispatch(signin(data))
-        // if (isAuthenticate) {
-        //     if (auth.user.role == 1) {
-        //         navigate("/admin")
-        //     } else {
-        //         navigate("/")
-        //     }
-        // }
+    const onSubmit = async (data) => {
+        try {
+            const dataUser = await login(data);
+            toastr.success("Success ", "Login successfully");
+            localStorage.setItem("user", JSON.stringify(dataUser.data))
+            if (isAuthenticate()) {
+                if (isAuthenticate().user.role == 1) {
+                    navigate("/admin")
+                } else {
+                    navigate("/")
+                }
+            }
+            navigate("/")
+        } catch (error) {
+            toastr.error("Failed to login", error.response.data.msg);
+        }
+        // 
     }
 
     return (
