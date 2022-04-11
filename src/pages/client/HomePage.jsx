@@ -12,7 +12,7 @@ const HomePage = () => {
   return (
     <>
       <div className="max-w-full slideShow overflow-hidden">
-        <div className=" max-w-7xl w-full relative m-auto rounded-lg overflow-hidden">
+        <div className="max-w-7xl w-full relative m-auto rounded-lg overflow-hidden">
           <div className="mySlides fade">
             <img className="w-full h-[450px] object-cover"
               src="https://i.ytimg.com/vi/fBonRLiYdYA/maxresdefault.jpg" />

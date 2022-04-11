@@ -378,3 +378,7 @@ img {
   display: inline-block;
   margin-top: 2px;
 }
+
+.profile-item-link.active{
+  @apply text-orange-600
+}

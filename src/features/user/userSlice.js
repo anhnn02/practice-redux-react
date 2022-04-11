@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { login, register } from "../../api/auth";
+import { read } from "../../api/user";
 import { toastr } from 'react-redux-toastr'
 
 export const signup = createAsyncThunk(
@@ -30,11 +31,20 @@ export const signin = createAsyncThunk(
     }
 )
 
+export const getUserInvoice = createAsyncThunk(
+    "user/getUserInvoice",
+    async (id) => {
+        const { data } = await read(id);
+        return data
+    }
+)
+
 const userSlice = createSlice({
     name: "user",
     initialState: {
         isAuthenticate: false,
         current: [],
+        value: [],
         settings: {}
     },
     extraReducers: (builder) => {
@@ -44,6 +54,10 @@ const userSlice = createSlice({
         builder.addCase(signin.fulfilled, (state, action) => {
             state.isAuthenticate = true;
             state.current = action.payload
+        })
+        builder.addCase(getUserInvoice.fulfilled, (state, action) => {
+            state.isAuthenticate = true;
+            state.value = action.payload
         })
     }
 })

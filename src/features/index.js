@@ -6,6 +6,7 @@ import proInCateSlice from '../features/categoryPro/proInCateSlice';
 import cartSlice from '../features/cart/cartSlice';
 import productSearchSlice from '../features/product/productSearchSlice';
 import { reducer as toastrReducer } from 'react-redux-toastr'
+import invoiceSlice from "../features/invoice/invoiceSlice";
 
 const rootReducer = combineReducers({
     toastr: toastrReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     user: userSlice,
     proInCate: proInCateSlice,
     productSearch: productSearchSlice,
-    cart: cartSlice
+    cart: cartSlice,
+    invoice: invoiceSlice
 });
 
 

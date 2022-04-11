@@ -17,10 +17,11 @@ import DetailNewsPage from './pages/client/news/DetailNewsPage';
 import CartPage from './pages/client/cart/CartPage';
 import CheckoutPage from './pages/client/cart/CheckoutPage';
 import OrderSuccessfully from './pages/client/cart/OrderSuccessfully';
+import UserInvoiceDetail from './components/user/UserInvoiceDetail';
 
-import UserProfileLayout from './pages/layouts/UserProfiileLayout';
+import UserProfileLayout from './pages/layouts/UserProfileLayout';
 import Profile from './components/user/Profile';
-import Information from './components/user/Information';
+import ResetPass from './components/user/ResetPass';
 import Order from './components/user/Order';
 
 import AdminLayout from './pages/layouts/AdminLayout';
@@ -30,16 +31,17 @@ import EditCategory from './pages/admin/cateProduct/EditCategory';
 import Product from './pages/admin/product/Product';
 import EditProduct from './pages/admin/product/EditProduct';
 import AddProduct from './pages/admin/product/AddProduct';
+import ListInvoice from './pages/admin/invoice/ListInvoice';
+import DetailInvoice from './pages/admin/invoice/DetailInvoice';
 
 import Register from './pages/auth/Register';
 import SignIn from './pages/auth/SignIn';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import AuthLayout from './pages/layouts/AuthLayout';
 import ResetPassword from './pages/auth/ResetPassword';
+
 import PrivateRouter from './components/PrivateRouter';
-
 import Page404 from './pages/Page404';
-
 function App() {
   const product = useSelector(data => data.product.value)
   const dispatch = useDispatch()
@@ -66,9 +68,11 @@ function App() {
           <Route path="/product/:productName" element={<ProductDetailPage />} />
 
           <Route path="/profile" element={<UserProfileLayout />}>
-            <Route index element={<Profile />} />
-            {/* <Route path="/order" element={<Order />} />
-            <Route path="/information" element={<Information />} /> */}
+            <Route index element={<Navigate to="user" />} />
+            <Route path="user" element={<Profile />} />
+            <Route path="purchase" element={<Order />} />
+            <Route path="purchase/:id/view" element={<UserInvoiceDetail />} />
+            <Route path="change-password" element={<ResetPass />} />
           </Route>
         </Route>
 
@@ -87,6 +91,8 @@ function App() {
 
           <Route path="category-product" element={<CategoryProduct />} />
           <Route path="category-product/:id/edit" element={<EditCategory />} />
+          <Route path="invoice" element={<ListInvoice />} />
+          <Route path="invoice/:id/view" element={<DetailInvoice />} />
           {/* <Route path="category-news" element={<CategoryNews />} />
           <Route path="category-news/:id/edit" element={<EditCategoryNews />} /> */}
 

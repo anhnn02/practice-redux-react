@@ -1,17 +1,33 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import CartTable from '../../../components/client/Cart/CartTable'
 import { formatPrice } from '../../../utils/formatNumber'
 import { useSelector } from 'react-redux'
+import { toastr } from 'react-redux-toastr'
 
 const CartPage = () => {
     const cartTotalQuantity = useSelector(data => data.cart.totalQuantity)
     const cart = useSelector(data => data.cart.items)
+    const navigate = useNavigate()
     let subTotal = 0;
     cart.forEach((item) => {
         subTotal += item.total;
     });
     let totalAmount = subTotal + 5
+
+    const checkCart = () => {
+        if(cart.length === 0) {
+            const toastrConfirmOptions = {
+                onOk: () => {
+                    navigate('/categories/all/1')
+                } ,
+                onCancel: () => { }
+            }
+            toastr.confirm("Your cart is empty, go to shop to get more item", toastrConfirmOptions)
+        } else {
+            navigate("/checkout")
+        }
+    }
     return (
         <>
             <div className="bg-bgr-color">
@@ -74,7 +90,7 @@ const CartPage = () => {
                                 </div>
                             </div>
                         </div>
-                        <button className="block w-full"><NavLink className="block p-2 w-full bg-primary-color text-white rounded trans-second hover:opacity-90" to="/checkout">Checkout</NavLink></button>
+                        <button className="block w-full block p-2 w-full bg-primary-color text-white rounded trans-second hover:opacity-90" onClick={() => checkCart()}> Checkout</button>
                     </div>
                 </div>
             </div>

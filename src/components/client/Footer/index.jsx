@@ -34,7 +34,7 @@ const Footer = () => {
                         className="bi bi-facebook"></i></NavLink>
                 </div>
                 <div className="">
-                    <span> &copy; 2021 Bee Store. All rights reserved</span>
+                    <span> &copy; 2021 Anh's Bee Store. All rights reserved</span>
                 </div>
             </footer>
         </div>
