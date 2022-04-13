@@ -32,11 +32,11 @@ const ProductCate = () => {
                                             <select
                                                 className="form-select form-select-sm appearance-none block w-full px-6 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                                 aria-label=".form-select-sm example">
-                                                <option value="1">Default</option>
-                                                <option value="2">A-Z</option>
-                                                <option value="3">Z-A</option>
-                                                <option value="4">Price: Low-High</option>
-                                                <option value="5">Price: High-Low</option>
+                                                <option defaultValue="1">Default</option>
+                                                <option defaultValue="2">A-Z</option>
+                                                <option defaultValue="3">Z-A</option>
+                                                <option defaultValue="4">Price: Low-High</option>
+                                                <option defaultValue="5">Price: High-Low</option>
                                             </select>
                                             <div
                                                 className="ml-2 border border-gray-primary flex px-6 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded">

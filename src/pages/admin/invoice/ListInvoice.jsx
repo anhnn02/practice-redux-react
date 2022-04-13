@@ -1,19 +1,31 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 // import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 // import { formatPrice } from '../../../utils/formatNumber';
 import { useDispatch, useSelector } from 'react-redux'
-import { listInvoice } from '../../../features/invoice/invoiceSlice'
+import { listInvoice, updateStatusInvoice } from '../../../features/invoice/invoiceSlice'
 import { DataGrid } from '@mui/x-data-grid';
 import { formatPrice } from '../../../utils/formatNumber'
 
 const Invoice = () => {
+    let [reRenderPage, setReRenderPage] = useState(0)
     const invoices = useSelector(data => data.invoice.value);
     const dispatch = useDispatch();
 
+    const changeStatusInvoice = (id, status) => {
+        const invoice = {
+            status: {
+                status: (status * 1)
+            },
+            id
+        }
+        dispatch(updateStatusInvoice(invoice))
+        setReRenderPage(reRenderPage++)
+    }
     useEffect(() => {
         dispatch(listInvoice());
-    }, [])
+        setReRenderPage(reRenderPage++)
+    }, [reRenderPage])
 
     const columns = [
         { field: 'index', headerName: '#', width: 50 },
@@ -60,25 +72,65 @@ const Invoice = () => {
             editable: true,
             renderCell(params) {
                 return <div className="">
-                        <select class="form-select appearance-none
-                            block
-                            w-full
-                            px-1
-                            py-1
-                            text-sm
-                            text-green-800
-                            font-normal
-                            bg-green-100 bg-clip-padding bg-no-repeat
-                            border border-solid border-gray-300
-                            rounded
-                            transition
-                            ease-in-out
-                            m-0
-                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
-                        <option value="1">Wait for confirmation</option>
-                        <option value="2">Confirm</option>
-                        <option value="3">Cancel</option>
-                    </select>
+                    {
+                        (() => {
+                            if (params.row.status === 0) {
+                                return (
+                                    <select
+                                        onChange={(e) => changeStatusInvoice(params.row.id, e.target.value)}
+                                        className="form-select appearance-none block max-w-full w-36 px-1 py-1 text-sm text-orange-800 font-normal bg-orange-100 border border-solid border-gray-300 rounded m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                                        <option selected value="0">Wait for confirmation</option>
+                                        <option value="1">Shipping</option>
+                                        <option value="2">Successfully</option>
+                                        <option value="3">Cancel</option>
+                                        <option value="4">Order canceled</option>
+                                    </select>
+                                )
+                            }
+                            if (params.row.status === 1) {
+                                return (
+                                    <select
+                                        onChange={(e) => changeStatusInvoice(params.row.id, e.target.value)}
+                                        className="form-select appearance-none block max-w-full w-36 px-1 py-1 text-sm text-blue-800 font-normal bg-blue-100 border border-solid border-gray-300 rounded m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                                        <option selected value="1">Shipping</option>
+                                        <option value="2">Successfully</option>
+                                        <option value="3">Cancel</option>
+                                        <option value="4">Order canceled</option>
+                                    </select>
+
+                                )
+                            }
+                            if (params.row.status === 2) {
+                                return (
+                                    <select
+                                        onChange={(e) => changeStatusInvoice(params.row.id, e.target.value)}
+                                        className="form-select appearance-none block max-w-full w-36 px-1 py-1 text-sm text-green-800 font-normal bg-green-100 border border-solid border-gray-300 rounded m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                                        <option value="2">Successfully</option>
+                                    </select>
+
+                                )
+                            }
+                            if (params.row.status === 3) {
+                                return (
+                                    <select
+                                        onChange={(e) => changeStatusInvoice(params.row.id, e.target.value)}
+                                        className="form-select appearance-none block max-w-full w-36 px-1 py-1 text-sm text-red-800 font-normal bg-red-200 border border-solid border-gray-300 rounded m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                                        <option value="3">Cancel</option>
+                                    </select>
+
+                                )
+                            }
+                            if (params.row.status === 4) {
+                                return (
+                                    <select
+                                        onChange={(e) => changeStatusInvoice(params.row.id, e.target.value)}
+                                        className="form-select appearance-none block max-w-full w-36 px-1 py-1 text-sm text-red-800 font-normal bg-red-200 border border-solid border-gray-300 rounded m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                                        <option value="4">Order canceled</option>
+                                    </select>
+                                )
+                            }
+                        })()
+                    }
                 </div>
             }
         },
@@ -89,12 +141,12 @@ const Invoice = () => {
             renderCell(params) {
                 // console.log("first", params)
                 return <Link className=" items-center px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg :text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                    to={`/admin/invoice/${params.id}/view`}><i class="bi bi-eye-fill"></i></Link>
+                    to={`/admin/invoice/${params.id}/view`}><i className="bi bi-eye-fill"></i></Link>
             },
             width: 50
         },
     ];
-    const newData = invoices?.map((item, index) => {
+    const newData = invoices.length > 0 && invoices?.map((item, index) => {
         // console.log(object);
         return {
             id: item._id,

@@ -1,27 +1,98 @@
 import React, { useEffect } from 'react'
-import { formatPrice } from '../../utils/formatNumber';
+import { formatPrice } from '../../../utils/formatNumber';
 import { useDispatch, useSelector } from 'react-redux'
-import { getInvoiceDetail } from '../../features/invoice/invoiceSlice'
+import { getInvoiceDetail, updateStatusInvoice } from '../../../features/invoice/invoiceSlice'
 import { DataGrid } from '@mui/x-data-grid';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toastr } from 'react-redux-toastr';
 
 const UserInvoiceDetail = () => {
     const { invoice, invoiceDetails } = useSelector(data => data.invoice.detailInvoice);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { id } = useParams()
+
+    const cancelInvoice = () => {
+        const invoiceUpdate = {
+            status: {
+                status: 4,
+            },
+            id: invoice._id
+        }
+        const toastrConfirmOptions = {
+            onOk: () => {
+                dispatch(updateStatusInvoice(invoiceUpdate))
+                // const idUser = JSON.parse(localStorage.getItem('user')).user._id
+                // navigate(`/user/${idUser}`)
+                navigate("/")
+            },
+            onCancel: () => {}
+        };
+        toastr.confirm('Are you sure you want to cancel invoice?', toastrConfirmOptions);
+    }
 
     useEffect(() => {
         dispatch(getInvoiceDetail(id));
-        console.log(invoiceDetails);
-    }, [id])
+    }, [])
 
     return (
         <>
             <main className="h-full overflow-y-auto">
                 <div className="container px-6 mx-auto grid">
-                    <h2 className="my-6 text-2xl font-semibold text-gray-700 :text-gray-200">
-                        Detail Bill
-                    </h2>
+                    <div className="grid grid-cols-2 mt-2">
+                        <h2 className=" text-2xl text-gray-700 :text-gray-200">
+                            Detail Bill
+                        </h2>
+                        <div className="text-right">
+                            {
+                                (() => {
+                                    if (invoice?.status === 0) {
+                                        return (
+                                            <div className="">
+                                                <span
+                                                    className="inline-block mr-2 px-2 py-1 text-sm rounded text-orange-800 font-normal bg-orange-100 ">Waiting for confirmation</span>
+                                                <button className="px-1 py-1 text-sm text-red-800 font-normal bg-red-100 rounded" onClick={cancelInvoice}>Cancel</button>
+                                            </div>
+                                        )
+                                    }
+                                    if (invoice?.status === 1) {
+                                        return (
+                                            <div className="">
+                                                <span
+                                                    className="inline-block mr-2 px-2 py-1 text-sm rounded text-blue-800 font-normal bg-blue-100 ">Shipping</span>
+                                            </div>
+                                        )
+                                    }
+                                    if (invoice?.status === 2) {
+                                        return (
+                                            <div className="">
+                                                <span
+                                                    className="inline-block mr-2 px-2 py-1 text-sm rounded text-green-800 font-normal bg-green-100 ">Successfully</span>
+                                            </div>
+                                        )
+                                    }
+                                    if (invoice?.status === 3) {
+                                        return (
+                                            <div className="">
+                                                <span
+                                                    className="inline-block mr-2 px-2 py-1 text-sm rounded text-red-800 font-normal bg-red-200 ">Order canceled</span>
+                                            </div>
+                                        )
+                                    }
+                                    if (invoice?.status === 4) {
+                                        return (
+                                            <div className="">
+                                                <span
+                                                    className="inline-block mr-2 px-2 py-1 text-sm rounded text-red-800 font-normal bg-red-200 ">Cancel</span>
+                                            </div>
+                                        )
+                                    }
+                                })()
+                            }
+
+                        </div>
+                    </div>
+
                     {/* <div className="flex justify-between items-center">
                     </div> */}
                     <div className="w-full overflow-hidden rounded-lg shadow-xs">

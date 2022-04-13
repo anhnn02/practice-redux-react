@@ -19,7 +19,7 @@ export const get = (id) => {
     const url = `invoice/${id}`;
     return instance.get(url);
 }
-export const update = (product) => {
-    const url = `invoice/${product._id}`;
-    return instance.put(url, product);
+export const update = (id, status) => {
+    const url = `invoice/${id}`;
+    return instance.put(url, status);
 }

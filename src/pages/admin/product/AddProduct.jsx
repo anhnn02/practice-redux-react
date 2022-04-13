@@ -83,7 +83,7 @@ const AddProduct = () => {
                                             focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   aria-label="Default select example">
                   {categoryProduct?.map((item) => {
-                    return <option className="" value={item._id}>{item.name}</option>
+                    return <option className=""defaultValue={item._id}>{item.name}</option>
                   })}
                 </select>
               </div>

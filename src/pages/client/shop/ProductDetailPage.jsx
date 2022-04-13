@@ -8,6 +8,7 @@ import { relatedProduct as relatedPro } from '../../../features/categoryPro/proI
 import { formatPercent, formatPrice } from '../../../utils/formatNumber'
 import { splitArray } from '../../../utils/splitSize'
 import { toastr } from 'react-redux-toastr'
+import Comment from '../../../components/client/Shop/Comment'
 
 const ProductDetailPage = () => {
     const [quantity, setQuantity] = useState(1)
@@ -173,7 +174,7 @@ const ProductDetailPage = () => {
                         </div>
                     </div>
                     <div className="py-5 px-12">
-                        {/* <h4>Comment</h4> */}
+                        <Comment />
                     </div>
                     <div className="py-5 px-12">
                         <h4 className="text-2xl py-3">Related products <b></b></h4>

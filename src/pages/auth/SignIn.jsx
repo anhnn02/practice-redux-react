@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux'
 import { toastr } from 'react-redux-toastr'
 import { login } from "../../api/auth"
-import {isAuthenticate} from "../../utils/localstorage"
+import { isAuthenticate } from "../../utils/localstorage"
 
 const SignIn = () => {
     const { register, handleSubmit, formState: { errors } } = useForm()
@@ -13,20 +13,23 @@ const SignIn = () => {
     const onSubmit = async (data) => {
         try {
             const dataUser = await login(data);
-            toastr.success("Success ", "Login successfully");
-            localStorage.setItem("user", JSON.stringify(dataUser.data))
-            if (isAuthenticate()) {
-                if (isAuthenticate().user.role == 1) {
-                    navigate("/admin")
-                } else {
-                    navigate("/")
+            if (dataUser && dataUser.data.user.status == 0) {
+                toastr.success("Success ", "Login successfully");
+                localStorage.setItem("user", JSON.stringify(dataUser.data))
+
+                if (isAuthenticate()) {
+                    if (isAuthenticate().user.role === 1) {
+                        navigate("/admin")
+                    } else {
+                        navigate("/")
+                    }
                 }
+            } else {
+                toastr.error("Failed to login", "Your account is locked!");
             }
-            navigate("/")
         } catch (error) {
             toastr.error("Failed to login", error.response.data.msg);
         }
-        // 
     }
 
     return (

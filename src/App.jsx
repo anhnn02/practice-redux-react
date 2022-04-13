@@ -17,12 +17,12 @@ import DetailNewsPage from './pages/client/news/DetailNewsPage';
 import CartPage from './pages/client/cart/CartPage';
 import CheckoutPage from './pages/client/cart/CheckoutPage';
 import OrderSuccessfully from './pages/client/cart/OrderSuccessfully';
-import UserInvoiceDetail from './components/user/UserInvoiceDetail';
+import UserInvoiceDetail from './components/client/user/UserInvoiceDetail';
 
 import UserProfileLayout from './pages/layouts/UserProfileLayout';
-import Profile from './components/user/Profile';
-import ResetPass from './components/user/ResetPass';
-import Order from './components/user/Order';
+import Profile from './components/client/user/Profile';
+import ResetPass from './components/client/user/ResetPass';
+import Order from './components/client/user/Order';
 
 import AdminLayout from './pages/layouts/AdminLayout';
 import Dashboard from './pages/admin/Dashboard';
@@ -33,6 +33,7 @@ import EditProduct from './pages/admin/product/EditProduct';
 import AddProduct from './pages/admin/product/AddProduct';
 import ListInvoice from './pages/admin/invoice/ListInvoice';
 import DetailInvoice from './pages/admin/invoice/DetailInvoice';
+import ListUser from './pages/admin/user/ListUser';
 
 import Register from './pages/auth/Register';
 import SignIn from './pages/auth/SignIn';
@@ -92,6 +93,7 @@ function App() {
           <Route path="category-product" element={<CategoryProduct />} />
           <Route path="category-product/:id/edit" element={<EditCategory />} />
           <Route path="invoice" element={<ListInvoice />} />
+          <Route path="user" element={<ListUser />} />
           <Route path="invoice/:id/view" element={<DetailInvoice />} />
           {/* <Route path="category-news" element={<CategoryNews />} />
           <Route path="category-news/:id/edit" element={<EditCategoryNews />} /> */}

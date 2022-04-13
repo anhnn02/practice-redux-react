@@ -1,6 +1,6 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import SidebarUser from '../../components/user/SidebarUser'
+import SidebarUser from '../../components/client/user/SidebarUser'
 
 const UserProfileLayout = () => {
     return (

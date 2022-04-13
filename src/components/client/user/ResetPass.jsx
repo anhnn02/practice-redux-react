@@ -1,6 +1,9 @@
 import React from 'react'
+import { useForm } from 'react-hook-form'
 
 const ResetPass = () => {
+    const { register, handleSubmit, formState } = useForm()
+
     return (
         <>
             <div className="text-xl text-secondary-color">Change my password</div>

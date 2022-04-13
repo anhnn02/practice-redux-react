@@ -16,14 +16,14 @@ const Profile = () => {
                         <option>EUR</option>
                     </select>
                     <div className="text-right">
-                        <button class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <button className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Save change
                         </button>
                     </div>
                 </div>
                 <div className="text-center">
                     <img className="img-responsive w-36 h-36 object-cover inline-block rounded-full" src="https://image.thanhnien.vn/w660/Uploaded/2022/bzivoxbp/2021_01_25/rose_qnem.jpg" alt="" />
-                    <input type="file" class="block w-full my-2 text-sm text-slate-500
+                    <input type="file" className="block w-full my-2 text-sm text-slate-500
       file:mr-4 file:py-2 file:px-4
       file:rounded-full file:border-0
       file:text-sm file:font-semibold

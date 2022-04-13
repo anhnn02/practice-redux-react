@@ -17,6 +17,14 @@ export const getInvoiceDetail = createAsyncThunk(
     }
     
 )
+export const updateStatusInvoice = createAsyncThunk(
+    "invoice/updateStatusInvoice",
+    async (dataInvoice) => {
+        const { data } = await update(dataInvoice.id, dataInvoice.status);
+        return data
+    }
+    
+)
 
 const invoiceSlice = createSlice({
     name: "invoice",
@@ -30,6 +38,9 @@ const invoiceSlice = createSlice({
         });
         builder.addCase(getInvoiceDetail.fulfilled, (state, action) => {
             state.detailInvoice = action.payload
+        });
+        builder.addCase(updateStatusInvoice.fulfilled, (state, action) => {
+            state.value = action.payload
         });
     }
 })

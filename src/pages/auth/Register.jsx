@@ -11,6 +11,7 @@ const Register = () => {
 
     const onSubmit = (data) => {
         dispatch(signup(data))
+        navigate("/signin")
     }
 
     return (

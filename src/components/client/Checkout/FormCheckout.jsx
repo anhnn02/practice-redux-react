@@ -37,7 +37,7 @@ const FormCheckout = () => {
             if (cart.length > 0) {
                 const { data } = await create(dataInvoice)
                 const invoiceId = data._id
-
+                console.log("firstabcneem", invoiceId)
                 await cart.forEach(async (item) => {
                     const dataInvoiceDetail = {
                         name: item.name,

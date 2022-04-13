@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { isAuthenticate } from '../../utils/localstorage'
+import { isAuthenticate } from '../../../utils/localstorage'
 
 const SidebarUser = () => {
     let userInfo
