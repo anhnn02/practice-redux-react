@@ -38,7 +38,7 @@ const ListUser = () => {
         {
             field: 'email',
             headerName: 'Email',
-            width: 560,
+            width: 600,
             editable: true,
             sortable: false,
         },

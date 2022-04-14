@@ -1,14 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom'
+import { listProduct } from '../../features/product/productSlice';
 import { formatPrice } from '../../utils/formatNumber'
+import { splitArray } from '../../utils/splitSize';
 
 
 const HomePage = () => {
   // console.log("props", products);
-  const products = [
-    { name: "Test redux", regularPrice: "100", img: "https://images.unsplash.com/photo-1644982649363-fae51da44eac?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80", desc: "abscjhasbjsdasascsa", size: "36, 37, 38", categoryPro: "624b16b66fb90d62cd866a2c" },
-    { name: "Test redux", regularPrice: "100", img: "https://images.unsplash.com/photo-1644982649363-fae51da44eac?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80", desc: "abscjhasbjsdasascsa", size: "36, 37, 38", categoryPro: "624b16b66fb90d62cd866a2c" }
-  ]
+  // const products = [
+  //   { name: "Test redux", regularPrice: "100", img: "https://images.unsplash.com/photo-1644982649363-fae51da44eac?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80", desc: "abscjhasbjsdasascsa", size: "36, 37, 38", categoryPro: "624b16b66fb90d62cd866a2c" },
+  //   { name: "Test redux", regularPrice: "100", img: "https://images.unsplash.com/photo-1644982649363-fae51da44eac?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80", desc: "abscjhasbjsdasascsa", size: "36, 37, 38", categoryPro: "624b16b66fb90d62cd866a2c" }
+  // ]
+  const dispatch = useDispatch();
+  const products = useSelector(data => data.product.value)
+  const newProducts = products.slice(0, 10)
+  useEffect(() => {
+    dispatch(listProduct())
+
+  }, [])
+
+
   return (
     <>
       <div className="max-w-full slideShow overflow-hidden">
@@ -73,11 +85,11 @@ const HomePage = () => {
         <div className="">
           <h2 className="text-center font-bold text-2xl py-4">Newest product</h2>
           <div className="grid grid-cols-5 gap-5 max-w-7xl m-auto">
-            {products?.map((item) => {
+            {newProducts?.map((item) => {
               return <div className="products__item bg-white radius-primary pt-[5px] px-[5px] pb-[10px]">
                 <div className="relative overflow-hidden h-44">
-                  <NavLink to="/shop/${product.id}">
-                    <img src="https://i.pinimg.com/564x/64/db/46/64db46de93105cc0b4c91bb977af88c5.jpg"
+                  <NavLink to={`product/${item._id}`}>
+                    <img src={item.img}
                       alt="" className="item-img max-w-full h-44 w-full rounded-[7px] object-cover" />
                   </NavLink>
                   <button className="btn-favorite btn-favorite-1"><i className="bi bi-heart"></i><i
@@ -95,9 +107,9 @@ const HomePage = () => {
                       <span className="product__price product__price--old">{(item.salePrice) ? formatPrice(item.regularPrice) : ""}</span>
                     </div>
                     <div className="product-group__variation">
-                      <span className="variation__item">36</span>
-                      <span className="variation__item">37</span>
-                      <span className="variation__item">38</span>
+                      {splitArray(item?.size).map(((size) => {
+                        return <span className="variation__item">{size}</span>
+                      }))}
                     </div>
                   </div>
                   <div className="flex justify-between items-center mt-1">
@@ -117,7 +129,7 @@ const HomePage = () => {
             })}
           </div>
         </div>
-        <div className="mt-12">
+        {/* <div className="mt-12">
           <h2 className="text-center font-bold text-2xl py-4">Top 10 best selling</h2>
           <div className="grid grid-cols-5 gap-5 max-w-7xl m-auto">
             <div className="products__item bg-white radius-primary pt-[5px] px-[5px] pb-[10px]">
@@ -521,7 +533,7 @@ const HomePage = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="max-w-6xl m-auto my-20 grid grid-cols-2 gap-3">
           <div className="flex">
             <div className="my-auto">

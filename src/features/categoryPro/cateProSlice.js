@@ -14,7 +14,6 @@ export const addCategory = createAsyncThunk(
     "category/addCategory",
     async (category) => {
         const { data } = await create(category);
-        // toastr.success("Thông báo", "Thêm danh mục thành công")
         return data
     }
 )
@@ -23,7 +22,6 @@ export const updateCategory = createAsyncThunk(
     "category/updateCategory",
     async (category) => {
         const { data } = await update(category);
-        // toastr.success("Thông báo", "Cập nhật danh mục thành công")
         return data
     }
 )
@@ -32,7 +30,6 @@ export const removeCategory = createAsyncThunk(
     "category/removeCategory",
     async (id) => {
         const { data } = await remove(id);
-        // toastr.success("Thông Báo", "Xóa thành công")
         return data
     }
 )
@@ -55,6 +52,9 @@ const categorySlice = createSlice({
         });
         builder.addCase(updateCategory.fulfilled, (state, action) => {
             state.value = state.value.map(item => item._id === action.payload._id ? action.payload : item)
+        });
+        builder.addCase(updateCategory.rejected, (state, action) => {
+            console.log("cate", action)
         });
     }
 })

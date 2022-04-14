@@ -12,8 +12,8 @@ const ActionAuth = () => {
         }
     }
 
-    const logout = ()=>{
-        if(localStorage.getItem('user')){
+    const logout = () => {
+        if (localStorage.getItem('user')) {
             localStorage.removeItem('user');
             setOpenLogin(false)
         }
@@ -36,13 +36,6 @@ const ActionAuth = () => {
                             <Link to="" onClick={() => { logout() }} className="block px-3 py-2 hover:bg-gray-100">Log out</Link>
                         </div>
                     )}
-
-                    {/* <button id="logout">Logout</button>
-                        <div className="dropdown-acc hidden">
-                            <NavLink to="" className="dropdown-acc__item">Profile</NavLink>
-                            <NavLink to="" className="dropdown-acc__item">Setting</NavLink>
-                            <NavLink to="" className="dropdown-acc__item">Log out</NavLink>
-                        </div> */}
                 </div>
                     : <div className="flex w-full">
                         <NavLink to="/signin" className="ml-[8px] trans-second hover:opacity-80">Sign In</NavLink>

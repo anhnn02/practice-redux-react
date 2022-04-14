@@ -82,7 +82,7 @@ const Order = () => {
                         (() => {
                             if (params.row.status === 0) {
                                 return (
-                                    <span className="form-select appearance-none block w-full px-1 py-1 text-sm text-orange-800 font-normal bg-orange-100 bg-clip-padding bg-no-repeat border border-solid border-gray-300 transition ease-in-out m-0
+                                    <span className="form-select appearance-none block w-full px-1 py-1 text-sm text-orange-800 font-normal bg-orange-100 bg-clip-padding bg-no-repeat border border-solid  transition ease-in-out m-0
                             focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
                                         Wait for confirmation
                                     </span>
@@ -90,31 +90,31 @@ const Order = () => {
                             }
                             if (params.row.status === 1) {
                                 return (
-                                    <span className="form-select appearance-none block w-full px-1 py-1 text-sm text-blue-800 font-normal bg-blue-100 bg-clip-padding bg-no-repeat border border-solid border-gray-300 transition ease-in-out m-0
-                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                                    <span className="form-select appearance-none block w-full px-1 py-1 text-sm text-blue-800 font-normal bg-blue-100 bg-clip-padding bg-no-repeat border border-solid  transition ease-in-out m-0
+                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none rounded" aria-label="Default select example">
                                         Shipping
                                     </span>
                                 )
                             }
                             if (params.row.status === 2) {
                                 return (
-                                    <span className="form-select appearance-none block w-full px-1 py-1 text-sm text-green-800 font-normal bg-green-100 bg-clip-padding bg-no-repeat border border-solid border-gray-300 transition ease-in-out m-0
-                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                                    <span className="form-select appearance-none block w-full px-1 py-1 text-sm text-green-800 font-normal bg-green-100 bg-clip-padding bg-no-repeat border border-solid  transition ease-in-out m-0
+                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none rounded" aria-label="Default select example">
                                         Successfully
                                     </span>
                                 )
                             }
                             if (params.row.status === 3) {
                                 return (
-                                    <span className="form-select appearance-none block w-full px-1 py-1 text-sm text-red-800 font-normal bg-red-100 bg-clip-padding bg-no-repeat border border-solid border-gray-300 transition ease-in-out m-0
-                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                                    <span className="form-select appearance-none block w-full px-1 py-1 text-sm text-red-800 font-normal bg-red-100 bg-clip-padding bg-no-repeat border border-solid  transition ease-in-out m-0
+                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none rounded" aria-label="Default select example">
                                         Order canceled
                                     </span>
                                 )
                             }
                             if (params.row.status === 4) {
                                 return (
-                                    <span className="form-select appearance-none block w-full px-1 py-1 text-sm text-red-800 font-normal bg-red-100 bg-clip-padding bg-no-repeat border border-solid border-gray-300 transition ease-in-out m-0
+                                    <span className="form-select appearance-none block w-full px-1 py-1 text-sm text-red-800 font-normal bg-red-100 bg-clip-padding bg-no-repeat border border-solid  transition ease-in-out m-0
                             focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none rounded" aria-label="Default select example">
                                         Cancel
                                     </span>

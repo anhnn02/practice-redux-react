@@ -34,19 +34,19 @@ const AsideCategory = () => {
 
                 </ul>
             </div>
-            <div className="shop__category-group">
+            {/* <div className="shop__category-group">
                 <span className="ff-2">Filter</span>
                 <div className="my-2">
-                    {/* <input
+                    <input
                     className="w-[60px] bg-gray-lighter text-sm border-none radius-secondary p-1 outline-none text-center filter-input--start"
-                    type="text">
+                    type="text" />
                     <span>-</span>
                     <input
                       className="w-[60px] bg-gray-lighter text-sm border-none radius-secondary p-1 outline-none text-center filter-input--end"
-                      type="text"> $ */}
+                      type="text" /> $
                     <input className="filter-range w-full block" type="range" min="0" max="1000" />
                 </div>
-            </div>
+            </div> */}
         </aside>
     )
 }

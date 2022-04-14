@@ -16,6 +16,15 @@ export const getProduct = createAsyncThunk(
         return data
     }
 )
+export const getProductComment = createAsyncThunk(
+    "product/getProductComment",
+    async (id) => {
+        const { data } = await read(id)
+        return data
+    }
+)
+
+
 export const addProduct = createAsyncThunk(
     "product/addProduct",
     async (dataProduct) => {
@@ -27,7 +36,6 @@ export const removeProducts = createAsyncThunk(
     "product/removeProducts",
     async (id) => {
         const { data } = await remove(id);
-        // toastr.success("Thông Báo", "Xóa sản phẩm thành công")
         return data
     }
 )
@@ -35,7 +43,6 @@ export const updateProduct = createAsyncThunk(
     "product/updateProducts",
     async (dataProduct) => {
         const { data } = await update(dataProduct);
-        // toastr.success("Thông Báo", "Cập nhật sản phẩm thành công")
         return data
     }
 )
@@ -66,7 +73,8 @@ export const getProductFilter = createAsyncThunk(
 const productSlice = createSlice({
     name: "product",
     initialState: {
-        value: [],
+        value: [],  
+        productComment: [],
         valueLimitPage: [],
         status: null
     },
@@ -80,10 +88,6 @@ const productSlice = createSlice({
         builder.addCase(getProduct.fulfilled, (state, action) => {
             state.value = action.payload
         })
-        // builder.addCase(addProduct.rejected, (state, action) => {
-        //     console.log(action)
-        //     state.value.push(action.payload)
-        // })
         builder.addCase(removeProducts.fulfilled, (state, action) => {
             state.value = state.value.filter(item => item._id !== action.payload._id)
         })
@@ -99,6 +103,11 @@ const productSlice = createSlice({
         builder.addCase(getProductFilter.fulfilled, (state, action) => {
             state.valueLimitPage = action.payload
         })
+        builder.addCase(getProductComment.fulfilled, (state, action) => {
+            state.productComment = action.payload
+        })
+
+        
 
     }
     

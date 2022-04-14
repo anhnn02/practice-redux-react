@@ -43,6 +43,7 @@ import ResetPassword from './pages/auth/ResetPassword';
 
 import PrivateRouter from './components/PrivateRouter';
 import Page404 from './pages/Page404';
+import ListComment from './pages/admin/comment/ListComment';
 function App() {
   const product = useSelector(data => data.product.value)
   const dispatch = useDispatch()
@@ -72,6 +73,7 @@ function App() {
             <Route index element={<Navigate to="user" />} />
             <Route path="user" element={<Profile />} />
             <Route path="purchase" element={<Order />} />
+            <Route path="order-success" element={<OrderSuccessfully />} />
             <Route path="purchase/:id/view" element={<UserInvoiceDetail />} />
             <Route path="change-password" element={<ResetPass />} />
           </Route>
@@ -94,6 +96,7 @@ function App() {
           <Route path="category-product/:id/edit" element={<EditCategory />} />
           <Route path="invoice" element={<ListInvoice />} />
           <Route path="user" element={<ListUser />} />
+          <Route path="comment" element={<ListComment />} />
           <Route path="invoice/:id/view" element={<DetailInvoice />} />
           {/* <Route path="category-news" element={<CategoryNews />} />
           <Route path="category-news/:id/edit" element={<EditCategoryNews />} /> */}

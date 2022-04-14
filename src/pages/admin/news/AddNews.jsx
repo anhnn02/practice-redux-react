@@ -68,7 +68,7 @@ const AddNews = () => {
                   aria-label="Default select example">
 
 
-                  <option className=""defaultValue="">Abc</option>
+                  <option className="" value="">Abc</option>
                 </select>
               </div>
             </div>

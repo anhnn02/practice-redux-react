@@ -1,25 +1,22 @@
 import React, { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import slugify from 'react-slugify';
-// import { update, get } from '../../../api/categoryProduct';
-
+import { updateCategory } from '../../../features/categoryPro/cateProSlice';
+import { getProductInCategory } from '../../../features/categoryPro/proInCateSlice';
 
 const EditCategory = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const { category } = useSelector(data => data.proInCate.value);
+    const dispatch = useDispatch()
     const navigate = useNavigate();
     const { id } = useParams();
-    console.log(id)
 
     useEffect(() => {
-        // const getCategory = async () => {
-        //     console.log("asdasd", id)
-        //     const { data } = await get(id);
-        //     // truyen du lieu cu vao form, k bug linh tinh
-        //     reset(data)
-        // }
-        // getCategory();
-    }, [])
+        dispatch(getProductInCategory(id))
+            reset(category)
+    }, [id])
 
     //-------------update
     const onSubmit = async (data) => {
@@ -29,8 +26,8 @@ const EditCategory = () => {
             name: data.name,
             slug: slugCate
         }
-        // await update(dataCate)
-        // navigate('/admin/category-product');
+        dispatch(updateCategory(dataCate))
+        navigate('/admin/category-product');
     }
 
     return (
@@ -52,7 +49,7 @@ const EditCategory = () => {
                                 id="cate-product" type="text" />
                             <button
                                 className="w-[120px] mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                >
+                            >
                                 Save change
                             </button>
                         </div>

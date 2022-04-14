@@ -62,7 +62,6 @@ const userSlice = createSlice({
         listUser: [],
         value: [],
         settings: {},
-        info: {}
     },
     extraReducers: (builder) => {
         builder.addCase(signup.fulfilled, (state, action) => {

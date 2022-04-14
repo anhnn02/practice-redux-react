@@ -7,12 +7,15 @@ import { create } from '../../../api/invoice'
 import { create as createDetail } from '../../../api/invoiceDetail'
 import { resetCart } from '../../../features/cart/cartSlice'
 import { isAuthenticate } from '../../../utils/localstorage'
+import { useNavigate } from 'react-router-dom'
+import { toastr } from 'react-redux-toastr'
 
 const FormCheckout = () => {
     const { register, handleSubmit, formState: { errors } } = useForm()
     const dispatch = useDispatch()
     const cartTotalQuantity = useSelector(data => data.cart.totalQuantity)
     const cart = useSelector(data => data.cart.items)
+    const navigate = useNavigate()
     let subTotal = 0;
     cart.forEach((item) => {
         subTotal += item.total;
@@ -37,7 +40,6 @@ const FormCheckout = () => {
             if (cart.length > 0) {
                 const { data } = await create(dataInvoice)
                 const invoiceId = data._id
-                console.log("firstabcneem", invoiceId)
                 await cart.forEach(async (item) => {
                     const dataInvoiceDetail = {
                         name: item.name,
@@ -52,6 +54,8 @@ const FormCheckout = () => {
 
                     await createDetail(dataInvoiceDetail)
                     dispatch(resetCart())
+                    toastr.success("Order successfully")
+                    navigate("/order-success")
                 })
             }
         }

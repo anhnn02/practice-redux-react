@@ -57,11 +57,11 @@ const ProductPage = () => {
                         onChange={(e) => handleOnChange(e.target.value)}
                         className="form-select form-select-sm appearance-none block w-full px-6 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                         aria-label=".form-select-sm example">
-                        <option defaultValue="-createdAt">Default</option>
-                        <option defaultValue="name">A-Z</option>
-                        <option defaultValue="-name">Z-A</option>
-                        <option defaultValue="-price">Price: Low-High</option>
-                        <option defaultValue="price">Price: High-Low</option>
+                        <option  value="-createdAt">Default</option>
+                        <option  value="name">A-Z</option>
+                        <option  value="-name">Z-A</option>
+                        <option  value="-price">Price: Low-High</option>
+                        <option  value="price">Price: High-Low</option>
                       </select>
                       <div
                         className="ml-2 border-gray-primary flex px-6 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded">

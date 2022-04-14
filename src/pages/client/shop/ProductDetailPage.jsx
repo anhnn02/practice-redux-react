@@ -120,7 +120,7 @@ const ProductDetailPage = () => {
                                                         {/* {console.log("asdnsa", splitArray(productOne?.size))} */}
                                                         {(productOne?.size) ? splitArray(productOne?.size).map((size, index) => {
                                                             return <div className="radio">
-                                                                <input type="radio" {...register('size', { required: true })} id={`sizeProduct-${index}`} defaultValue={size} />
+                                                                <input type="radio" {...register('size', { required: true })} id={`sizeProduct-${index}`}  value={size} />
                                                                 <label htmlFor={`sizeProduct-${index}`}
                                                                     className="px-4 py-1 rounded flex justify-center items-center text-sm lg:text-lg ">
                                                                     {size}
@@ -140,7 +140,7 @@ const ProductDetailPage = () => {
                                         <input
                                             className="quantity__input shadow appearance-none border rounded max-w-2  py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                             type="number"
-                                            defaultValue="1" />
+                                             value="1" />
                                     </div>
                                     <button
                                         id="btnAddToCart"
